@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 620" fill="none">
+  <rect width="500" height="620" fill="black"/>
+  <!-- Main organic blob (PODIUM-style figure) -->
+  <path
+    fill="white"
+    d="M248 48
+       C302 44, 348 78, 362 132
+       C376 186, 358 238, 322 278
+       C292 312, 268 328, 252 358
+       C236 388, 242 428, 258 468
+       C274 508, 256 548, 218 572
+       C180 596, 132 584, 108 548
+       C84 512, 88 462, 112 422
+       C88 388, 68 342, 62 288
+       C56 234, 74 178, 114 138
+       C154 98, 202 52, 248 48Z"
+  />
+  <!-- Lower drip -->
+  <ellipse cx="196" cy="548" rx="34" ry="42" fill="white"/>
+  <!-- Upper-right satellite blob -->
+  <ellipse cx="388" cy="198" rx="52" ry="58" fill="white"/>
+  <!-- Lower-right satellite blob -->
+  <ellipse cx="408" cy="338" rx="28" ry="32" fill="white"/>
+</svg>

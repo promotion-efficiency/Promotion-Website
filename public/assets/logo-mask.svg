@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 630">
+  <defs>
+    <filter id="invert" color-interpolation-filters="sRGB">
+      <feColorMatrix
+        type="matrix"
+        values="-1 0 0 0 1
+                 0 -1 0 0 1
+                 0 0 -1 0 1
+                 0 0 0 1 0"
+      />
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="black" />
+  <image
+    href="promo-logo.png"
+    xlink:href="promo-logo.png"
+    x="0"
+    y="0"
+    width="1200"
+    height="630"
+    preserveAspectRatio="xMidYMid meet"
+    filter="url(#invert)"
+  />
+</svg>
