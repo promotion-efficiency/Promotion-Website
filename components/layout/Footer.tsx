@@ -1,212 +1,181 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { brand } from '@/lib/brand'
-import HeroPlayCursor, {
-  scrollToVideoChapter,
-  useHoverPlayCursor,
-  usePlayCursor,
-} from '@/components/home/HeroPlayCursor'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { brand, services } from '@/lib/brand'
+import { assetPath } from '@/lib/paths'
 
-const PRESS_EMAIL = 'press@promotionefficiency.com'
-
-const CHANNELS = [
-  { label: 'Instagram', href: 'https://instagram.com/PromotionEfficiency' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/promotion-efficiency' },
-  { label: 'X', href: 'https://x.com/PromotionEfficiency' },
+const EXPLORE_LINKS = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Manifesto', href: '/#manifesto' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Contact', href: '/contact' },
 ] as const
 
-const LEGAL_LINKS = [
+const SERVICE_LINKS = services.map((service) => ({
+  label: service.title,
+  href: `/#services`,
+}))
+
+const STUDIO_LINKS = [
+  { label: 'Careers', href: '/contact' },
   { label: 'Privacy Policy', href: '#' },
   { label: 'Terms of Use', href: '#' },
-  { label: 'Cookies', href: '#' },
+  { label: 'Press', href: 'mailto:press@promotionefficiency.com' },
 ] as const
 
-const actionBoxClass =
-  'border border-white/40 bg-black/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors hover:border-white/60'
+const SOCIAL_LINKS = [
+  {
+    label: 'Instagram',
+    href: 'https://instagram.com/PromotionEfficiency',
+    icon: (
+      <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9ZM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm4.75-3.25a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z" />
+    ),
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/company/promotion-efficiency',
+    icon: (
+      <path d="M4.5 3A1.5 1.5 0 0 0 3 4.5v15A1.5 1.5 0 0 0 4.5 21h15a1.5 1.5 0 0 0 1.5-1.5v-15A1.5 1.5 0 0 0 19.5 3h-15ZM8.25 9.75V18H6V9.75h2.25ZM7.125 6.75a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25ZM18 18h-2.25v-4.05c0-.975-.018-2.227-1.356-2.227-1.357 0-1.564 1.06-1.564 2.153V18H10.5V9.75H12.6v1.162h.033c.285-.54 1.08-1.11 2.227-1.11 2.383 0 2.82 1.568 2.82 3.608V18Z" />
+    ),
+  },
+  {
+    label: 'X',
+    href: 'https://x.com/PromotionEfficiency',
+    icon: (
+      <path d="M4 4 9.5 12.9 4.2 20h2.3l4.1-5.4 3.3 5.4H20l-5.7-8.3L19.4 4h-2.3l-3.8 5L10.4 4H4Zm2.6 1.5h1.7l10.1 14.9H16.7L6.6 5.5Z" />
+    ),
+  },
+] as const
 
-function FooterRow({ label, children }: { label: string; children: React.ReactNode }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string
+  links: readonly { label: string; href: string }[]
+}) {
   return (
-    <div className="grid gap-6 py-8 md:grid-cols-[minmax(0,34%)_1fr] md:items-start md:gap-10 md:py-10">
-      <p className="text-base text-pe-gray-light md:text-lg">{label}</p>
-      <div>{children}</div>
+    <div>
+      <h3 className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white">{title}</h3>
+      <ul className="mt-5 space-y-2.5">
+        {links.map((link) => (
+          <li key={link.label}>
+            {link.href.startsWith('http') || link.href.startsWith('mailto') ? (
+              <a
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="text-[12px] leading-relaxed text-white/55 transition-colors hover:text-white"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                href={link.href}
+                className="text-[12px] leading-relaxed text-white/55 transition-colors hover:text-white"
+              >
+                {link.label}
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
 
-function FooterDivider() {
-  return <div className="h-px w-full bg-pe-white/20" aria-hidden />
-}
-
 export default function Footer() {
-  const [copied, setCopied] = useState(false)
-  const hoverPlayCursor = useHoverPlayCursor()
-  const { cursor, onMouseMove, onMouseEnter, onMouseLeave } = usePlayCursor(hoverPlayCursor)
+  const footerRef = useRef<HTMLElement>(null)
+  const prefersReduced = useReducedMotion()
   const year = new Date().getFullYear()
 
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(brand.email)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 2000)
-    } catch {
-      window.location.href = `mailto:${brand.email}`
-    }
-  }
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ['start end', 'end end'],
+  })
+
+  const clipPath = useTransform(
+    scrollYProgress,
+    [0, 0.45, 1],
+    prefersReduced
+      ? ['inset(0% 0 0 0)', 'inset(0% 0 0 0)', 'inset(0% 0 0 0)']
+      : ['inset(100% 0 0 0)', 'inset(0% 0 0 0)', 'inset(0% 0 0 0)'],
+  )
+
+  const contentY = useTransform(
+    scrollYProgress,
+    [0, 0.45, 1],
+    prefersReduced ? ['0%', '0%', '0%'] : ['6%', '0%', '0%'],
+  )
 
   return (
-    <footer className="border-t border-pe-white/10 bg-pe-black">
-      {hoverPlayCursor && (
-        <HeroPlayCursor
-          x={cursor.x}
-          y={cursor.y}
-          visible={cursor.visible}
-          className="z-[120]"
-        />
-      )}
-
-      <div className="w-full px-[5vw] py-20 md:py-28">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,42%)_1fr] lg:gap-16 xl:gap-20">
-          <div>
-            <h2 className="font-sans text-[clamp(2.25rem,4.8vw,3.75rem)] font-medium leading-[1.05] tracking-tight text-pe-white">
-              Contact
-            </h2>
-            <p className="mt-1 font-sans text-[clamp(2.25rem,4.8vw,3.75rem)] font-medium leading-[1.05] tracking-tight text-pe-gray">
-              Press and careers
-            </p>
-
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => scrollToVideoChapter()}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault()
-                  scrollToVideoChapter()
-                }
-              }}
-              onMouseEnter={onMouseEnter}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-              aria-label="Play showreel"
-              className={`relative mt-10 aspect-[16/10] w-full overflow-hidden bg-pe-charcoal ${
-                hoverPlayCursor ? 'cursor-none' : ''
-              }`}
-            >
+    <footer ref={footerRef} className="sticky bottom-0 z-0 bg-black text-white">
+      <motion.div style={{ clipPath }} className="overflow-hidden">
+        <motion.div style={{ y: contentY }} className="px-[5vw] pb-10 pt-16 md:pb-12 md:pt-20">
+          <div className="mx-auto flex max-w-[1200px] flex-col items-center">
+            <Link href="/" aria-label="Promotion Efficiency home" className="inline-flex">
               <Image
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80"
-                alt=""
-                fill
-                className="pointer-events-none object-cover"
-                sizes="(max-width: 1024px) 90vw, 42vw"
+                src={assetPath('/assets/pe-wordmark-nav.png')}
+                alt="Promotion Efficiency"
+                width={360}
+                height={123}
+                unoptimized
+                className="h-10 w-auto object-contain md:h-12"
+                priority={false}
               />
-              <div className="pointer-events-none absolute inset-0 bg-black/25" aria-hidden />
+            </Link>
 
-              <div
-                className="absolute bottom-4 left-4 z-10 md:bottom-5 md:left-5"
-                onClick={(event) => event.stopPropagation()}
-              >
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                  Say hello
-                </p>
-                <a
-                  href={`mailto:${brand.email}`}
-                  className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-opacity hover:opacity-70"
-                >
-                  {brand.email}
-                </a>
-              </div>
-
-              {!hoverPlayCursor && (
-                <span
-                  className={`absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${actionBoxClass}`}
-                >
-                  <span className="mr-1.5 text-[8px]" aria-hidden>
-                    ▶
-                  </span>
-                  Play
-                </span>
-              )}
-
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  void copyEmail()
-                }}
-                onMouseEnter={onMouseLeave}
-                className={`absolute bottom-4 right-4 z-10 cursor-pointer md:bottom-5 md:right-5 ${actionBoxClass}`}
-              >
-                {copied ? 'Copied' : 'Copy'}
-              </button>
+            <div className="mt-14 grid w-full gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
+              <FooterColumn title="Explore" links={EXPLORE_LINKS} />
+              <FooterColumn title="Services" links={SERVICE_LINKS} />
+              <FooterColumn
+                title="Get in touch"
+                links={[
+                  { label: 'Contact', href: '/contact' },
+                  { label: brand.email, href: `mailto:${brand.email}` },
+                ]}
+              />
+              <FooterColumn title="The studio" links={STUDIO_LINKS} />
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <FooterRow label="Press + Media">
-              <p className="max-w-md text-sm leading-relaxed text-pe-gray-light md:text-[15px] md:leading-7">
-                For information, images, and media resources.
-              </p>
-              <a
-                href={`mailto:${PRESS_EMAIL}`}
-                className="mt-3 inline-block text-sm text-pe-white underline decoration-pe-white/30 underline-offset-4 transition-colors hover:decoration-pe-white"
-              >
-                {PRESS_EMAIL}
-              </a>
-            </FooterRow>
+          <div className="mx-auto mt-14 max-w-[1200px] border-t border-white/15 pt-8 md:mt-16">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/80">
+                  Promotion Efficiency
+                </p>
+                <p className="mt-1 text-[12px] text-white/50">© 2018—{year}</p>
+              </div>
 
-            <FooterDivider />
-
-            <FooterRow label="Recruitment">
-              <p className="max-w-md text-sm leading-relaxed text-pe-gray-light md:text-[15px] md:leading-7">
-                One team, one climb.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-3 inline-block text-sm text-pe-white underline decoration-pe-white/30 underline-offset-4 transition-colors hover:decoration-pe-white"
-              >
-                Work with us
-              </Link>
-            </FooterRow>
-
-            <FooterDivider />
-
-            <FooterRow label="Channels">
-              <ul className="space-y-2">
-                {CHANNELS.map((channel) => (
-                  <li key={channel.label}>
-                    <a
-                      href={channel.href}
-                      target={channel.href.startsWith('http') ? '_blank' : undefined}
-                      rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="text-sm text-pe-white transition-opacity hover:opacity-70"
+              <div className="flex items-center gap-5">
+                {SOCIAL_LINKS.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="text-white/70 transition-colors hover:text-white"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden
+                      className="h-4 w-4 fill-current"
                     >
-                      {channel.label}
-                    </a>
-                  </li>
+                      {social.icon}
+                    </svg>
+                  </a>
                 ))}
-              </ul>
-            </FooterRow>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-16 flex flex-col gap-4 border-t border-pe-white/20 pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-pe-gray">© 2018—{year}</p>
-          <div className="flex flex-wrap gap-6">
-            {LEGAL_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm text-pe-gray-light transition-colors hover:text-pe-white"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
   )
 }

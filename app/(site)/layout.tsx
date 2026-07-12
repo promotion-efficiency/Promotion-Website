@@ -5,8 +5,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main>{children}</main>
-      <Footer />
+      <div className="relative">
+        <main className="relative z-10 bg-pe-black">{children}</main>
+        <Footer />
+      </div>
     </>
   )
 }
