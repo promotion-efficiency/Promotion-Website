@@ -41,7 +41,7 @@ export default function HeroConsentBar() {
 
   return (
     <div
-      className="pointer-events-auto absolute bottom-6 right-[5vw] z-20 flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-pe-white/15 bg-pe-black/55 py-2 pl-3 pr-2 backdrop-blur-md mix-blend-difference md:bottom-7"
+      className="pointer-events-auto absolute bottom-6 right-[5vw] z-20 flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-pe-white/15 bg-pe-black/70 py-2 pl-3 pr-2 backdrop-blur-md md:bottom-7"
       onClick={stop}
       role="group"
       aria-label="Cookie notice"

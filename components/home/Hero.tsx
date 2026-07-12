@@ -24,18 +24,30 @@ export default function Hero() {
     const video = videoRef.current
     if (!video) return
 
+    let playing = false
+
     const play = async () => {
+      if (playing) return
       try {
         video.muted = true
         await video.play()
+        playing = true
       } catch {
-        // Autoplay can be blocked until user interaction — retry on first click.
+        // Autoplay can be blocked until user interaction.
       }
     }
 
-    play()
-    video.addEventListener('loadeddata', play)
-    return () => video.removeEventListener('loadeddata', play)
+    const onCanPlay = () => {
+      void play()
+    }
+
+    if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      void play()
+    } else {
+      video.addEventListener('canplay', onCanPlay, { once: true })
+    }
+
+    return () => video.removeEventListener('canplay', onCanPlay)
   }, [])
 
   useEffect(() => {
@@ -79,13 +91,16 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           className="absolute inset-0 z-0 h-full w-full object-cover"
           aria-hidden
-        >
-          <source src={assetPath('/assets/hero-bg.mp4')} type="video/mp4" />
-          <source src={assetPath('/assets/hero-bg.mov')} type="video/quicktime" />
-        </video>
+          src={assetPath('/assets/hero-bg.mp4')}
+        />
+
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-1/2 bg-gradient-to-t from-pe-black/80 via-pe-black/35 to-transparent"
+          aria-hidden
+        />
 
         {!finePointer && (
           <span className="pointer-events-none absolute right-6 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 border border-pe-gray/30 bg-pe-black/70 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white backdrop-blur-sm md:right-10">
@@ -99,7 +114,7 @@ export default function Hero() {
         <HeroConsentBar />
 
         <motion.div
-          className="pointer-events-none absolute bottom-0 left-0 z-10 w-full px-6 pb-10 mix-blend-difference md:px-10 md:pb-14"
+          className="pointer-events-none absolute bottom-0 left-0 z-10 w-full px-6 pb-10 md:px-10 md:pb-14"
           style={{ y: copyY }}
           initial={prefersReduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -111,17 +111,6 @@ function ProjectImageCard({
         className="object-cover"
         sizes="(max-width: 768px) 90vw, 60vw"
       />
-      {project.video && (
-        <video
-          src={project.video}
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={project.image}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      )}
     </Link>
   )
 }

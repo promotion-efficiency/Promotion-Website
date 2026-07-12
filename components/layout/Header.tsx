@@ -41,7 +41,6 @@ export default function Header() {
 
   const inHero = isHome && !pastHero
   const compactBar = !inHero
-  const blendNav = inHero
 
   useEffect(() => {
     setPastHero(!isHome)
@@ -74,8 +73,8 @@ export default function Header() {
     }
   }, [menuOpen, compactOpen])
 
-  const floatClass = `${navFloatClass} ${blendNav ? 'mix-blend-difference' : ''} overflow-hidden`
-  const linkClass = blendNav
+  const floatClass = `${navFloatClass} overflow-hidden`
+  const linkClass = inHero
     ? `${navLinkClass} text-pe-white`
     : `${navLinkClass} text-pe-gray-light`
 
@@ -171,7 +170,7 @@ export default function Header() {
             <motion.button
               type="button"
               layout
-              className={`ml-1 flex h-7 w-7 shrink-0 items-center justify-center lg:hidden ${blendNav ? 'text-pe-white' : 'text-pe-gray-light'}`}
+              className="ml-1 flex h-7 w-7 shrink-0 items-center justify-center text-pe-white lg:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
               aria-expanded={menuOpen}
