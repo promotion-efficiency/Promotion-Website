@@ -2,6 +2,7 @@ import Hero from '@/components/home/Hero'
 import Manifesto from '@/components/home/Manifesto'
 import ManifestoReel from '@/components/home/ManifestoReel'
 import LatestWork from '@/components/home/LatestWork'
+import StudioNews from '@/components/home/StudioNews'
 import ServicesOverview from '@/components/home/ServicesOverview'
 import StatsSection from '@/components/home/StatsSection'
 import ClientMarquee from '@/components/shared/ClientMarquee'
@@ -15,6 +16,7 @@ export default function Home() {
       <Manifesto />
       <ManifestoReel />
       <LatestWork />
+      <StudioNews />
       <ServicesOverview />
       <StatsSection />
       <ClientMarquee />

@@ -109,7 +109,7 @@ function ProjectImageCard({
         alt={project.title}
         fill
         className="object-cover"
-        sizes="(max-width: 768px) 100vw, 42vw"
+        sizes="(max-width: 768px) 90vw, 60vw"
       />
       {project.video && (
         <video
@@ -264,15 +264,15 @@ function WorkShowcase() {
       className="relative bg-pe-black"
       style={{ height: `${projects.length * 100}vh` }}
     >
-      <div className="sticky top-0 mx-auto flex h-screen max-w-7xl items-center px-6 md:px-10">
-        <div className="grid w-full items-center gap-10 md:grid-cols-[minmax(0,38%)_minmax(0,62%)] md:gap-12 lg:gap-16">
-          <aside className="flex min-w-0 flex-col justify-between py-10 md:h-[78vh] md:py-0">
+      <div className="sticky top-0 flex h-screen w-full items-center">
+        <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,32%)_1fr] md:gap-8 lg:grid-cols-[minmax(0,34%)_1fr] lg:gap-10">
+          <aside className="flex min-w-0 flex-col justify-between px-[5vw] py-10 md:h-[78vh] md:px-0 md:pl-[5vw] md:pr-6 md:py-0">
             <AnimatePresence mode="wait">
               <WorkProjectPanel key={activeProject.slug} project={activeProject} />
             </AnimatePresence>
           </aside>
 
-          <div className="relative h-[68vh] min-w-0 overflow-hidden md:h-[78vh]">
+          <div className="relative h-[68vh] min-w-0 overflow-hidden px-[5vw] md:h-[78vh] md:px-0 md:pr-[5vw]">
             <div
               className="flex flex-col gap-8 will-change-transform"
               style={{ transform: `translate3d(0, ${stackTranslateY}px, 0)` }}
