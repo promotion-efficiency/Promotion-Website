@@ -82,9 +82,9 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
             <Image src={project.image} alt={project.title} fill className="object-cover" priority />
           )}
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-pe-black via-pe-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-          <p className="text-xs uppercase tracking-[0.14em] text-pe-gray-light">{project.client}</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-12">
+          <p className="text-xs uppercase tracking-[0.14em] text-white/70">{project.client}</p>
           <h1 className="mt-2 font-display text-5xl uppercase md:text-8xl">{project.title}</h1>
         </div>
       </div>

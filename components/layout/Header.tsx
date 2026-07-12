@@ -8,29 +8,55 @@ import NavLogo from '@/components/brand/NavLogo'
 import NavCompactPanel from '@/components/layout/NavCompact'
 import {
   navFloatClass,
+  navFloatHeroClass,
   navFloatWrapClass,
   navLinkClass,
-  navMenuClass,
+  navMenuHeroClass,
   PRIMARY_NAV,
   getCompactNavContext,
 } from '@/components/layout/navConfig'
-import { liquidEase, liquidTransition } from '@/lib/navMotion'
+import { liquidEase, navLayoutTransition, navSmoothEase, navSmoothTransition } from '@/lib/navMotion'
 
 const linkReveal = {
-  hidden: { opacity: 0, x: 12, filter: 'blur(4px)' },
+  hidden: { opacity: 0, x: 8 },
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
-    filter: 'blur(0px)',
-    transition: { delay: i * 0.035, duration: 0.45, ease: liquidEase },
+    transition: { delay: i * 0.025, duration: 0.32, ease: navSmoothEase },
   }),
   exit: (i: number) => ({
     opacity: 0,
-    x: -10,
-    filter: 'blur(3px)',
-    transition: { delay: i * 0.02, duration: 0.3, ease: liquidEase },
+    x: -6,
+    transition: { delay: i * 0.015, duration: 0.22, ease: navSmoothEase },
   }),
 }
+
+function useHoverExpand() {
+  const [canHover, setCanHover] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setCanHover(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  return canHover
+}
+
+function GridDotsIcon() {
+  return (
+    <span className="grid grid-cols-2 gap-1" aria-hidden>
+      {Array.from({ length: 4 }).map((_, index) => (
+        <span key={index} className="h-1 w-1 rounded-full bg-current" />
+      ))}
+    </span>
+  )
+}
+
+const mobileHeroActionClass =
+  'flex items-center justify-center border border-white/25 bg-black/35 text-white backdrop-blur-sm transition-colors duration-300 hover:bg-black/50'
 
 export default function Header() {
   const pathname = usePathname()
@@ -38,14 +64,19 @@ export default function Header() {
   const [pastHero, setPastHero] = useState(!isHome)
   const [menuOpen, setMenuOpen] = useState(false)
   const [compactOpen, setCompactOpen] = useState(false)
+  const [navHovered, setNavHovered] = useState(false)
+  const canHover = useHoverExpand()
 
   const inHero = isHome && !pastHero
   const compactBar = !inHero
+  const compactExpanded = compactBar && canHover && navHovered && !compactOpen
+  const mobileHeroChrome = inHero && !canHover
 
   useEffect(() => {
     setPastHero(!isHome)
     setCompactOpen(false)
     setMenuOpen(false)
+    setNavHovered(false)
   }, [isHome])
 
   useEffect(() => {
@@ -63,7 +94,10 @@ export default function Header() {
   }, [isHome])
 
   useEffect(() => {
-    if (inHero) setCompactOpen(false)
+    if (inHero) {
+      setCompactOpen(false)
+      setNavHovered(false)
+    }
   }, [inHero])
 
   useEffect(() => {
@@ -73,152 +107,152 @@ export default function Header() {
     }
   }, [menuOpen, compactOpen])
 
-  const floatClass = `${navFloatClass} overflow-hidden`
+  const floatClass = `${inHero ? navFloatHeroClass : navFloatClass} overflow-hidden ${
+    compactOpen && compactBar ? 'rounded-b-none border-b-0' : ''
+  }`
+  const expandedMenuClass = inHero
+    ? navMenuHeroClass
+    : 'flex items-center gap-4 border-l border-pe-white/15 pl-3 md:gap-5 md:pl-4'
   const linkClass = inHero
-    ? `${navLinkClass} text-pe-white`
+    ? `${navLinkClass} text-white`
     : `${navLinkClass} text-pe-gray-light`
 
   const compactNav = getCompactNavContext(pathname)
 
+  const handleNavMouseEnter = () => {
+    if (compactBar && canHover && !compactOpen) setNavHovered(true)
+  }
+
+  const handleNavMouseLeave = () => {
+    setNavHovered(false)
+  }
+
+  const openCompactPanel = () => {
+    setNavHovered(false)
+    setCompactOpen(true)
+  }
+
+  const handleGridClick = () => {
+    document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <header className={navFloatWrapClass}>
+    <header className={mobileHeroChrome ? 'fixed top-0 left-0 right-0 z-50 px-[5vw] pt-4' : navFloatWrapClass}>
       <LayoutGroup id="site-nav">
-        <motion.div
-          layout
-          className={floatClass}
-          transition={liquidTransition}
-          style={{ borderRadius: compactOpen && compactBar ? 0 : undefined }}
-        >
-          <motion.div layout="position" transition={liquidTransition}>
-            <NavLogo />
-          </motion.div>
-
-          <AnimatePresence mode="popLayout" initial={false}>
-            {inHero ? (
-              <motion.nav
-                key="hero-nav"
-                layout
-                className={navMenuClass}
-                aria-label="Primary"
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: 'auto' }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={liquidTransition}
-              >
-                {PRIMARY_NAV.map((item, i) => (
-                  <motion.span
-                    key={item.href}
-                    custom={i}
-                    variants={linkReveal}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    className="inline-block whitespace-nowrap"
-                  >
-                    <Link href={item.href} className={linkClass}>
-                      {item.label}
-                    </Link>
-                  </motion.span>
-                ))}
-              </motion.nav>
-            ) : (
-              <motion.div
-                key="compact-nav"
-                layout
-                className="flex min-w-0 flex-1 items-center"
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: 'auto' }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={liquidTransition}
-              >
-                <motion.div
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 12 }}
-                  transition={{ duration: 0.45, ease: liquidEase }}
-                >
-                  <Link
-                    href={compactNav.href}
-                    className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
-                  >
-                    {compactNav.label}
-                  </Link>
-                </motion.div>
-
-                <motion.button
+        {mobileHeroChrome ? (
+          <>
+            <div className="flex items-center justify-between">
+              <NavLogo />
+              <div className="flex items-center gap-2">
+                <button
                   type="button"
-                  onClick={() => setCompactOpen((v) => !v)}
-                  className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center text-pe-gray-light transition-colors hover:text-pe-white"
-                  aria-label={compactOpen ? 'Close menu' : 'Open menu'}
-                  aria-expanded={compactOpen}
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }}
-                  transition={{ duration: 0.4, ease: liquidEase }}
+                  onClick={() => setMenuOpen((open) => !open)}
+                  className={`${mobileHeroActionClass} h-10 px-4 text-[10px] font-semibold uppercase tracking-[0.14em]`}
+                  aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                  aria-expanded={menuOpen}
                 >
-                  <motion.span
-                    className="block h-px w-4 bg-current"
-                    animate={{ scaleX: compactOpen ? 0.6 : 1 }}
-                    transition={liquidTransition}
-                  />
-                </motion.button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  Menu
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGridClick}
+                  className={`${mobileHeroActionClass} h-10 w-10`}
+                  aria-label="Go to work"
+                >
+                  <GridDotsIcon />
+                </button>
+              </div>
+            </div>
 
-          {inHero && (
-            <motion.button
-              type="button"
+            <NavCompactPanel open={menuOpen} onClose={() => setMenuOpen(false)} variant="hero" />
+          </>
+        ) : (
+          <div className="flex flex-col items-start">
+            <motion.div
               layout
-              className="ml-1 flex h-7 w-7 shrink-0 items-center justify-center text-pe-white lg:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-              transition={liquidTransition}
+              className={floatClass}
+              transition={navLayoutTransition}
+              onMouseEnter={handleNavMouseEnter}
+              onMouseLeave={handleNavMouseLeave}
             >
-              <span className={`block h-px w-4 bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? 'translate-y-[4px] rotate-45' : ''}`} />
-              <span className={`my-1 block h-px w-4 bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? 'opacity-0' : ''}`} />
-              <span className={`block h-px w-4 bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? '-translate-y-[4px] -rotate-45' : ''}`} />
-            </motion.button>
-          )}
-        </motion.div>
+              <motion.div layout="position" transition={navLayoutTransition}>
+                <NavLogo className={inHero ? '' : 'brightness-0'} />
+              </motion.div>
 
-        <AnimatePresence>
-          {inHero && menuOpen && (
-            <motion.nav
-              key="mobile-menu"
-              aria-label="Mobile"
-              initial={{ opacity: 0, height: 0, y: -4 }}
-              animate={{ opacity: 1, height: 'auto', y: 0 }}
-              exit={{ opacity: 0, height: 0, y: -4 }}
-              transition={liquidTransition}
-              className={`${navFloatClass} w-full min-w-[12rem] overflow-hidden border-t-0`}
-            >
-              <div className="flex flex-col gap-3 p-3">
-                {PRIMARY_NAV.map((item, i) => (
+              <AnimatePresence mode="popLayout" initial={false}>
+                {inHero || compactExpanded ? (
+                  <motion.nav
+                    key="expanded-nav"
+                    layout
+                    className={expandedMenuClass}
+                    aria-label="Primary"
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={navSmoothTransition}
+                  >
+                    {PRIMARY_NAV.map((item, i) => (
+                      <motion.span
+                        key={item.href}
+                        custom={i}
+                        variants={linkReveal}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="inline-block whitespace-nowrap"
+                      >
+                        <Link href={item.href} className={linkClass}>
+                          {item.label}
+                        </Link>
+                      </motion.span>
+                    ))}
+                  </motion.nav>
+                ) : compactBar ? (
                   <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{ delay: i * 0.04, duration: 0.35, ease: liquidEase }}
+                    key="compact-nav"
+                    layout
+                    className="flex min-w-0 flex-1 items-center"
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={navSmoothTransition}
                   >
                     <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className={`${navLinkClass} text-pe-gray-light`}
+                      href={compactNav.href}
+                      className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
                     >
-                      {item.label}
+                      {compactNav.label}
                     </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.nav>
-          )}
-        </AnimatePresence>
 
-        {compactBar && (
-          <NavCompactPanel open={compactOpen} onClose={() => setCompactOpen(false)} />
+                    {compactOpen ? (
+                      <button
+                        type="button"
+                        onClick={() => setCompactOpen(false)}
+                        className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center text-pe-gray-light transition-colors duration-300 hover:text-pe-white"
+                        aria-label="Close menu"
+                      >
+                        <span className="block h-px w-4 bg-current" aria-hidden />
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={openCompactPanel}
+                        className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center text-pe-gray-light transition-colors duration-300 hover:text-pe-white"
+                        aria-label="Open menu"
+                        aria-expanded={compactOpen}
+                      >
+                        <span className="h-1 w-1 rounded-full bg-current" aria-hidden />
+                      </button>
+                    )}
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </motion.div>
+
+            {compactBar && (
+              <NavCompactPanel open={compactOpen} onClose={() => setCompactOpen(false)} />
+            )}
+          </div>
         )}
       </LayoutGroup>
     </header>

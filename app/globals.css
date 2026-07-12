@@ -3,13 +3,13 @@
 @theme {
   --font-display: var(--font-nord), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-gotham), ui-sans-serif, system-ui, sans-serif;
-  --color-pe-black: #0a0a0a;
-  --color-pe-charcoal: #141414;
-  --color-pe-surface: #1a1a1a;
+  --color-pe-black: #ffffff;
+  --color-pe-charcoal: #f7f7f7;
+  --color-pe-surface: #efefef;
   --color-pe-gray: #6b6b6b;
-  --color-pe-gray-light: #9a9a9a;
-  --color-pe-white: #f2f2f2;
-  --color-pe-off-white: #e8e8e8;
+  --color-pe-gray-light: #4a4a4a;
+  --color-pe-white: #0a0a0a;
+  --color-pe-off-white: #2a2a2a;
 }
 
 html {

@@ -115,6 +115,52 @@ function ProjectImageCard({
   )
 }
 
+function MobileWorkStack() {
+  return (
+    <section className="bg-pe-black px-[5vw] py-14 md:hidden">
+      <h2 className="font-sans text-[clamp(2.25rem,9vw,3rem)] font-medium leading-none tracking-tight text-pe-white">
+        Our work
+      </h2>
+
+      <div className="mt-10 flex flex-col gap-12">
+        {projects.map((project) => (
+          <Link key={project.slug} href={`/work/${project.slug}`} className="group block">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-pe-charcoal">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover transition-transform duration-700 group-active:scale-[1.02]"
+                sizes="92vw"
+              />
+              {project.video && (
+                <span
+                  className="absolute bottom-4 right-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/35 text-white/80 backdrop-blur-sm"
+                  aria-hidden
+                >
+                  <span className="text-[9px]">▶</span>
+                </span>
+              )}
+            </div>
+
+            <div className="mt-4 flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <h3 className="truncate font-sans text-lg font-medium text-pe-white">
+                  {project.client}
+                </h3>
+                <p className="mt-1 text-sm text-pe-gray">{project.title}</p>
+              </div>
+              <span className="shrink-0 text-lg text-pe-gray-light" aria-hidden>
+                ↗
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function WorkShowcase() {
   const sectionRef = useRef<HTMLElement>(null)
   const snapLockRef = useRef(false)
@@ -250,7 +296,7 @@ function WorkShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-pe-black"
+      className="relative hidden bg-pe-black md:block"
       style={{ height: `${projects.length * 100}vh` }}
     >
       <div className="sticky top-0 flex h-screen w-full items-center">
@@ -282,7 +328,7 @@ function WorkShowcase() {
             </div>
 
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-pe-black via-pe-black/80 to-transparent md:h-28"
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-pe-black via-pe-black/60 to-transparent md:h-28"
               aria-hidden
             />
           </div>
@@ -410,6 +456,7 @@ export default function LatestWork() {
   return (
     <>
       <div id="work" ref={sectionRef}>
+        <MobileWorkStack />
         {!listMode && <WorkShowcase />}
       </div>
 

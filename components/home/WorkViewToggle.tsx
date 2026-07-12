@@ -51,7 +51,7 @@ export default function WorkViewToggle({ visible, listMode, onToggle }: WorkView
       type="button"
       onClick={onToggle}
       aria-label={listMode ? 'Switch to grid view' : 'Switch to list view'}
-      className={`fixed bottom-8 left-1/2 z-[100] flex -translate-x-1/2 items-center gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${toggleBoxClass} ${
+      className={`fixed bottom-8 left-1/2 z-[100] hidden -translate-x-1/2 items-center gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:flex ${toggleBoxClass} ${
         visible ? 'pointer-events-auto translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
       }`}
     >

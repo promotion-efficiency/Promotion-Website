@@ -41,13 +41,13 @@ export default function HeroConsentBar() {
 
   return (
     <div
-      className="pointer-events-auto absolute bottom-6 right-[5vw] z-20 flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-pe-white/15 bg-pe-black/70 py-2 pl-3 pr-2 backdrop-blur-md md:bottom-7"
+      className="pointer-events-auto absolute bottom-6 right-[5vw] z-20 flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-white/15 bg-black/70 py-2 pl-3 pr-2 backdrop-blur-md md:bottom-7"
       onClick={stop}
       role="group"
       aria-label="Cookie notice"
     >
       <p
-        className={`min-w-0 flex-1 text-[10px] font-light leading-snug text-pe-white ${expanded ? '' : 'truncate md:max-w-[280px]'}`}
+        className={`min-w-0 flex-1 text-[10px] font-light leading-snug text-white ${expanded ? '' : 'truncate md:max-w-[280px]'}`}
       >
         Like most websites, we use cookies to improve your experience and better understand how you use our site.
       </p>
@@ -60,7 +60,7 @@ export default function HeroConsentBar() {
           stop(e)
           setExpanded((v) => !v)
         }}
-        className="flex h-8 w-8 shrink-0 items-center justify-center border border-pe-white/20 text-pe-white transition-colors hover:border-pe-white/50"
+        className="flex h-8 w-8 shrink-0 items-center justify-center border border-white/20 text-white transition-colors hover:border-white/50"
         aria-label="Cookie settings"
       >
         <SettingsIcon />
@@ -69,7 +69,7 @@ export default function HeroConsentBar() {
       <button
         type="button"
         onClick={accept}
-        className="flex h-8 w-8 shrink-0 items-center justify-center border border-pe-white/20 text-pe-white transition-colors hover:border-pe-white/50"
+        className="flex h-8 w-8 shrink-0 items-center justify-center border border-white/20 text-white transition-colors hover:border-white/50"
         aria-label="Accept cookies"
       >
         <CheckIcon />

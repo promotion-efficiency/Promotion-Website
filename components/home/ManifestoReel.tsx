@@ -19,20 +19,20 @@ function ReelProgress({ activeIndex, prefersReduced }: { activeIndex: number; pr
         return (
           <div
             key={project.slug}
-            className="relative h-px flex-1 overflow-hidden bg-pe-white/20"
+            className="relative h-px flex-1 overflow-hidden bg-white/20"
             aria-hidden
           >
-            {isPast && <div className="absolute inset-0 bg-pe-white" />}
+            {isPast && <div className="absolute inset-0 bg-white" />}
             {isActive && !prefersReduced && (
               <motion.div
                 key={`${project.slug}-${activeIndex}`}
-                className="absolute inset-y-0 left-0 bg-pe-white"
+                className="absolute inset-y-0 left-0 bg-white"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' }}
               />
             )}
-            {isActive && prefersReduced && <div className="absolute inset-0 bg-pe-white" />}
+            {isActive && prefersReduced && <div className="absolute inset-0 bg-white" />}
           </div>
         )
       })}
@@ -60,7 +60,7 @@ export default function ManifestoReel() {
   return (
     <section
       id="video-chapter"
-      className="relative h-[85vh] min-h-[560px] overflow-hidden bg-pe-black"
+      className="relative h-[85vh] min-h-[560px] overflow-hidden bg-pe-charcoal"
     >
       <div className="absolute inset-0">
         {projects.map((project, index) => {
@@ -97,7 +97,7 @@ export default function ManifestoReel() {
       />
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-56 bg-gradient-to-t from-pe-black via-pe-black/85 to-transparent md:h-64"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-56 bg-gradient-to-t from-black via-black/85 to-transparent md:h-64"
         aria-hidden
       />
 
@@ -109,7 +109,7 @@ export default function ManifestoReel() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.5, ease: liquidEase }}
-            className="font-display text-[clamp(5rem,14vw,11rem)] leading-none text-pe-white/10"
+            className="font-display text-[clamp(5rem,14vw,11rem)] leading-none text-white/10"
           >
             {indexLabel}
           </motion.span>
@@ -117,14 +117,14 @@ export default function ManifestoReel() {
       </div>
 
       <p
-        className="pointer-events-none absolute right-[5vw] top-1/2 z-10 hidden -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.32em] text-pe-white/45 [writing-mode:vertical-rl] md:block"
+        className="pointer-events-none absolute right-[5vw] top-1/2 z-10 hidden -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/45 [writing-mode:vertical-rl] md:block"
         aria-hidden
       >
         Showreel
       </p>
 
       <div className="absolute left-[5vw] right-[5vw] top-28 z-10 md:top-32">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-pe-white/70">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
           Featured work
         </p>
         <AnimatePresence mode="wait">
@@ -140,10 +140,10 @@ export default function ManifestoReel() {
               href={`/work/${activeProject.slug}`}
               className="group pointer-events-auto inline-block"
             >
-              <h3 className="font-display text-[clamp(2rem,5vw,4rem)] uppercase leading-[0.95] text-pe-white transition-opacity group-hover:opacity-80">
+              <h3 className="font-display text-[clamp(2rem,5vw,4rem)] uppercase leading-[0.95] text-white transition-opacity group-hover:opacity-80">
                 {activeProject.client}
               </h3>
-              <p className="mt-3 text-sm text-pe-gray-light">
+              <p className="mt-3 text-sm text-white/75">
                 {activeProject.title} · {activeProject.year}
               </p>
             </Link>
@@ -152,11 +152,11 @@ export default function ManifestoReel() {
       </div>
 
       <div className="absolute bottom-8 left-[5vw] right-[5vw] z-10 md:bottom-10">
-        <div className="mb-3 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-gray-light">
+        <div className="mb-3 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
           <span>
             {indexLabel} / {totalLabel}
           </span>
-          <span className="hidden sm:inline">{activeProject.industry}</span>
+          <span className="hidden sm:inline text-white/70">{activeProject.industry}</span>
         </div>
         <ReelProgress activeIndex={activeIndex} prefersReduced={Boolean(prefersReduced)} />
       </div>

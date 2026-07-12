@@ -7,6 +7,17 @@ export const liquidTransition: Transition = {
   ease: liquidEase,
 }
 
+export const navSmoothEase = [0.4, 0, 0.2, 1] as [number, number, number, number]
+
+export const navSmoothTransition: Transition = {
+  duration: 0.38,
+  ease: navSmoothEase,
+}
+
+export const navLayoutTransition: Transition = {
+  layout: { duration: 0.38, ease: navSmoothEase },
+}
+
 export const liquidSpring: Transition = {
   type: 'spring',
   stiffness: 420,

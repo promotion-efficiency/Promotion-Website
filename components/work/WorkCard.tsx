@@ -54,18 +54,18 @@ export default function WorkCard({ project, index }: WorkCardProps) {
             />
           )}
 
-          <div className="absolute inset-0 z-20 bg-gradient-to-t from-pe-black/80 via-pe-black/20 to-transparent" />
+          <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-          <div className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center border border-pe-white/30 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center border border-white/30 text-white opacity-0 transition-opacity group-hover:opacity-100">
             <span aria-hidden>→</span>
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 z-20 p-5 md:p-6">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-pe-gray-light">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
               {project.serviceFilter}
             </span>
-            <h2 className="mt-1 font-display text-2xl uppercase md:text-3xl">{project.client}</h2>
-            <p className="mt-1 text-xs text-pe-off-white">{project.resultStat}</p>
+            <h2 className="mt-1 font-display text-2xl uppercase text-white md:text-3xl">{project.client}</h2>
+            <p className="mt-1 text-xs text-white/75">{project.resultStat}</p>
           </div>
         </div>
       </Link>

@@ -9,7 +9,7 @@ export default function WorkCaseCursor({ x, y, visible }: WorkCaseCursorProps) {
 
   return (
     <div
-      className="pointer-events-none fixed z-[70] flex items-center gap-2 border border-pe-gray/40 bg-pe-black/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white backdrop-blur-sm"
+      className="pointer-events-none fixed z-[70] flex items-center gap-2 border border-white/30 bg-black/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm"
       style={{
         left: x,
         top: y,

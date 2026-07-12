@@ -12,7 +12,7 @@ import {
   navLinkClass,
   getCompactNavContext,
 } from '@/components/layout/navConfig'
-import { liquidTransition } from '@/lib/navMotion'
+import { navLayoutTransition, navSmoothTransition } from '@/lib/navMotion'
 
 export default function ContactChrome() {
   const [compactOpen, setCompactOpen] = useState(false)
@@ -22,15 +22,15 @@ export default function ContactChrome() {
   return (
     <header className={navFloatWrapClass}>
       <LayoutGroup id="contact-nav">
-        <motion.div layout className={`${navFloatClass} overflow-hidden`} transition={liquidTransition}>
-          <motion.div layout="position" transition={liquidTransition}>
-            <NavLogo />
+        <motion.div layout className={`${navFloatClass} overflow-hidden`} transition={navLayoutTransition}>
+          <motion.div layout="position" transition={navLayoutTransition}>
+            <NavLogo className="brightness-0" />
           </motion.div>
 
           <motion.div
             layout
             className="flex min-w-0 flex-1 items-center"
-            transition={liquidTransition}
+            transition={navLayoutTransition}
           >
             <Link
               href={compactNav.href}
@@ -49,7 +49,7 @@ export default function ContactChrome() {
               <motion.span
                 className="block h-px w-4 bg-current"
                 animate={{ scaleX: compactOpen ? 0.6 : 1 }}
-                transition={liquidTransition}
+                transition={navLayoutTransition}
               />
             </motion.button>
           </motion.div>

@@ -25,7 +25,7 @@ const LEGAL_LINKS = [
 ] as const
 
 const actionBoxClass =
-  'border border-pe-gray/40 bg-pe-black/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white backdrop-blur-sm transition-colors hover:border-pe-gray/60'
+  'border border-white/40 bg-black/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors hover:border-white/60'
 
 function FooterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -102,18 +102,18 @@ export default function Footer() {
                 className="pointer-events-none object-cover"
                 sizes="(max-width: 1024px) 90vw, 42vw"
               />
-              <div className="pointer-events-none absolute inset-0 bg-pe-black/25" aria-hidden />
+              <div className="pointer-events-none absolute inset-0 bg-black/25" aria-hidden />
 
               <div
                 className="absolute bottom-4 left-4 z-10 md:bottom-5 md:left-5"
                 onClick={(event) => event.stopPropagation()}
               >
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white/80">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
                   Say hello
                 </p>
                 <a
                   href={`mailto:${brand.email}`}
-                  className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-pe-white transition-opacity hover:opacity-70"
+                  className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-opacity hover:opacity-70"
                 >
                   {brand.email}
                 </a>
