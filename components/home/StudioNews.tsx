@@ -33,7 +33,7 @@ function FeaturedNewsCard() {
             alt=""
             fill
             className="object-cover grayscale transition-transform duration-700 group-hover:scale-[1.02]"
-            sizes="(max-width: 1024px) 100vw, 50vw"
+            sizes="(max-width: 1024px) 90vw, 55vw"
           />
         </div>
 
@@ -65,7 +65,7 @@ function CompactNewsCard({ item }: { item: (typeof moreNews)[number] }) {
             alt=""
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            sizes="(max-width: 1024px) 100vw, 25vw"
+            sizes="(max-width: 1024px) 45vw, 22vw"
           />
         </div>
 
@@ -84,7 +84,7 @@ function CompactNewsCard({ item }: { item: (typeof moreNews)[number] }) {
 export default function StudioNews() {
   return (
     <section className="border-t border-pe-white/10 bg-pe-black py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="w-full px-[5vw]">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase leading-none text-pe-white">

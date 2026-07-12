@@ -71,7 +71,7 @@ export default function Manifesto() {
       id="manifesto"
       className="border-t border-pe-gray/20 bg-pe-black py-28 md:py-40"
     >
-      <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <div className="w-full px-[5vw]">
         <div className="max-w-5xl">
           {lines.map((line, i) => (
             <RevealLine key={line.text} index={i} className={line.className} show={show}>
