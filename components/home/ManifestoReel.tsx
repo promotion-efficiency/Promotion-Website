@@ -66,7 +66,7 @@ export default function ManifestoReel() {
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
-            className="relative h-full w-full origin-center overflow-hidden will-change-transform"
+            className="relative h-full w-full origin-center overflow-hidden rounded-[10px] will-change-transform"
             style={{ scale: videoScale }}
           >
             <video
@@ -78,7 +78,7 @@ export default function ManifestoReel() {
               preload="metadata"
               className="h-full w-full object-cover"
               aria-label="Showreel"
-              src={assetPath('/assets/hero-bg.mp4')}
+              src={assetPath('/assets/showreel.mov')}
             />
           </motion.div>
         </div>
