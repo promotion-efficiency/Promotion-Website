@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { assetPath } from '@/lib/paths'
 
 type NavLogoProps = {
   href?: string
@@ -19,7 +20,7 @@ export default function NavLogo({ href = '/', className = '', tabIndex }: NavLog
       aria-label="Promotion Efficiency home"
     >
       <Image
-        src="/assets/pe-wordmark-nav.png"
+        src={assetPath('/assets/pe-wordmark-nav.png')}
         alt="Promotion Efficiency"
         width={WORDMARK_W}
         height={WORDMARK_H}

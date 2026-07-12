@@ -10,6 +10,7 @@ import HeroPlayCursor, {
 import HeroConsentBar from '@/components/home/HeroConsentBar'
 import { useWordmarkSplit } from '@/components/brand/SplitWordmark'
 import { brand } from '@/lib/brand'
+import { assetPath } from '@/lib/paths'
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -82,8 +83,8 @@ export default function Hero() {
           className="absolute inset-0 z-0 h-full w-full object-cover"
           aria-hidden
         >
-          <source src="/assets/hero-bg.mp4" type="video/mp4" />
-          <source src="/assets/hero-bg.mov" type="video/quicktime" />
+          <source src={assetPath('/assets/hero-bg.mp4')} type="video/mp4" />
+          <source src={assetPath('/assets/hero-bg.mov')} type="video/quicktime" />
         </video>
 
         {!finePointer && (

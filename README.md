@@ -17,7 +17,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## Pages
+## Deploy (GitHub Pages)
+
+Pushes to `main` build a static export and deploy via [GitHub Actions](.github/workflows/nextjs.yml).
+
+1. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**
+2. Push to `main` (or run the workflow manually)
+3. Site URL: `https://promotion-efficiency.github.io/Promotion-Website/`
+
+Local Pages build check:
+
+```bash
+GITHUB_PAGES=true GITHUB_REPOSITORY_NAME=Promotion-Website npm run build
+```
+
+Output is written to `out/`.
 
 | Route | Description |
 |---|---|
