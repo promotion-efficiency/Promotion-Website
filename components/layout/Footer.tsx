@@ -60,8 +60,10 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h3 className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white">{title}</h3>
-      <ul className="mt-5 space-y-2.5">
+      <h3 className="text-[9px] font-semibold uppercase tracking-[0.14em] text-white md:text-[10px] md:tracking-[0.16em]">
+        {title}
+      </h3>
+      <ul className="mt-3 space-y-1.5 md:mt-5 md:space-y-2.5">
         {links.map((link) => (
           <li key={link.label}>
             {link.href.startsWith('http') || link.href.startsWith('mailto') ? (
@@ -69,14 +71,14 @@ function FooterColumn({
                 href={link.href}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="text-[12px] leading-relaxed text-white/55 transition-colors hover:text-white"
+                className="text-[11px] leading-snug text-white/55 transition-colors hover:text-white md:text-[12px] md:leading-relaxed"
               >
                 {link.label}
               </a>
             ) : (
               <Link
                 href={link.href}
-                className="text-[12px] leading-relaxed text-white/55 transition-colors hover:text-white"
+                className="text-[11px] leading-snug text-white/55 transition-colors hover:text-white md:text-[12px] md:leading-relaxed"
               >
                 {link.label}
               </Link>
@@ -115,8 +117,8 @@ export default function Footer() {
   return (
     <footer ref={footerRef} className="sticky bottom-0 z-0 bg-black text-white">
       <motion.div style={{ clipPath }} className="overflow-hidden">
-        <motion.div style={{ y: contentY }} className="px-[5vw] pb-10 pt-16 md:pb-12 md:pt-20">
-          <div className="mx-auto flex max-w-[1200px] flex-col items-center">
+        <motion.div style={{ y: contentY }} className="px-[5vw] pb-8 pt-10 md:pb-12 md:pt-20">
+          <div className="mx-auto flex max-w-[1200px] flex-col items-start">
             <Link href="/" aria-label="Promotion Efficiency home" className="inline-flex">
               <Image
                 src={assetPath('/assets/pe-wordmark-nav.png')}
@@ -124,12 +126,12 @@ export default function Footer() {
                 width={360}
                 height={123}
                 unoptimized
-                className="h-10 w-auto object-contain md:h-12"
+                className="h-8 w-auto object-contain md:h-12"
                 priority={false}
               />
             </Link>
 
-            <div className="mt-14 grid w-full gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
+            <div className="mt-8 grid w-full grid-cols-2 gap-x-5 gap-y-7 sm:gap-x-6 lg:mt-16 lg:grid-cols-4 lg:gap-8">
               <FooterColumn title="Explore" links={EXPLORE_LINKS} />
               <FooterColumn title="Services" links={SERVICE_LINKS} />
               <FooterColumn
@@ -143,16 +145,16 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mx-auto mt-14 max-w-[1200px] border-t border-white/15 pt-8 md:mt-16">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="mx-auto mt-8 max-w-[1200px] border-t border-white/15 pt-6 md:mt-16 md:pt-8">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/80">
+                <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-white/80 md:text-[11px] md:tracking-[0.12em]">
                   Promotion Efficiency
                 </p>
-                <p className="mt-1 text-[12px] text-white/50">© 2018—{year}</p>
+                <p className="mt-0.5 text-[11px] text-white/50 md:mt-1 md:text-[12px]">© 2018—{year}</p>
               </div>
 
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4 md:gap-5">
                 {SOCIAL_LINKS.map((social) => (
                   <a
                     key={social.label}
@@ -165,7 +167,7 @@ export default function Footer() {
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden
-                      className="h-4 w-4 fill-current"
+                      className="h-3.5 w-3.5 fill-current md:h-4 md:w-4"
                     >
                       {social.icon}
                     </svg>
