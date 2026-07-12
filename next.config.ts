@@ -1,12 +1,9 @@
 import type { NextConfig } from 'next'
 import path from 'path'
+import { resolveSiteBasePath } from './lib/site'
 
 const isGithubPages = process.env.GITHUB_PAGES === 'true'
-
-/** Project Pages URL: https://<org>.github.io/<repo>/ */
-const basePath = isGithubPages
-  ? `/${process.env.GITHUB_REPOSITORY_NAME ?? 'Promotion-Website'}`
-  : ''
+const basePath = resolveSiteBasePath()
 
 const nextConfig: NextConfig = {
   output: isGithubPages ? 'export' : undefined,
@@ -21,12 +18,19 @@ const nextConfig: NextConfig = {
     unoptimized: isGithubPages,
     remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
   },
-  webpack(config) {
+  webpack(config, { webpack }) {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
       use: ['@svgr/webpack'],
     })
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __SITE_BASE_PATH__: JSON.stringify(basePath),
+      }),
+    )
+
     return config
   },
 }

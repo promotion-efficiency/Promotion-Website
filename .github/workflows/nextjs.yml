@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAGES: 'true'
+      GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,28 +33,18 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
-
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build static site
         run: npm run build
-        env:
-          GITHUB_PAGES: 'true'
-          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
 
       - name: Verify build output
-        run: test -f out/index.html
+        run: |
+          test -f out/index.html
+          grep -q '/${{ github.event.repository.name }}/assets/pe-wordmark-nav.png' out/index.html
+          grep -q '/${{ github.event.repository.name }}/assets/hero-bg.mp4' out/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
