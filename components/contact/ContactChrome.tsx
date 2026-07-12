@@ -1,15 +1,23 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { LayoutGroup, motion } from 'framer-motion'
 import Link from 'next/link'
 import NavLogo from '@/components/brand/NavLogo'
 import NavCompactPanel from '@/components/layout/NavCompact'
-import { navFloatClass, navFloatWrapClass, navLinkClass } from '@/components/layout/navConfig'
+import {
+  navFloatClass,
+  navFloatWrapClass,
+  navLinkClass,
+  getCompactNavContext,
+} from '@/components/layout/navConfig'
 import { liquidTransition } from '@/lib/navMotion'
 
 export default function ContactChrome() {
   const [compactOpen, setCompactOpen] = useState(false)
+  const pathname = usePathname()
+  const compactNav = getCompactNavContext(pathname)
 
   return (
     <header className={navFloatWrapClass}>
@@ -25,10 +33,10 @@ export default function ContactChrome() {
             transition={liquidTransition}
           >
             <Link
-              href="/"
+              href={compactNav.href}
               className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
             >
-              Home
+              {compactNav.label}
             </Link>
 
             <motion.button

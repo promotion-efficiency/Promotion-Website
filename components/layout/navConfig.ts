@@ -22,3 +22,12 @@ export const navMenuClass =
 
 export const navFloatWrapClass =
   'fixed top-4 left-[5vw] z-50 flex max-w-[calc(100vw-10vw)] flex-col items-start gap-2 md:top-5'
+
+/** Compact nav crumb: current page label + link target. */
+export function getCompactNavContext(pathname: string): { label: string; href: string } {
+  if (pathname === '/') return { label: 'Home', href: '/' }
+  if (pathname.startsWith('/work')) return { label: 'Work', href: '/work' }
+  if (pathname.startsWith('/about')) return { label: 'About', href: '/about' }
+  if (pathname.startsWith('/contact')) return { label: 'Contact', href: '/contact' }
+  return { label: 'Home', href: '/' }
+}

@@ -12,6 +12,7 @@ import {
   navLinkClass,
   navMenuClass,
   PRIMARY_NAV,
+  getCompactNavContext,
 } from '@/components/layout/navConfig'
 import { liquidEase, liquidTransition } from '@/lib/navMotion'
 
@@ -78,6 +79,8 @@ export default function Header() {
     ? `${navLinkClass} text-pe-white`
     : `${navLinkClass} text-pe-gray-light`
 
+  const compactNav = getCompactNavContext(pathname)
+
   return (
     <header className={navFloatWrapClass}>
       <LayoutGroup id="site-nav">
@@ -136,10 +139,10 @@ export default function Header() {
                   transition={{ duration: 0.45, ease: liquidEase }}
                 >
                   <Link
-                    href="/"
+                    href={compactNav.href}
                     className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
                   >
-                    Home
+                    {compactNav.label}
                   </Link>
                 </motion.div>
 

@@ -16,6 +16,7 @@ export type Project = {
   title: string
   client: string
   year: string
+  location: string
   industry: string
   service: string
   serviceFilter: string
@@ -39,6 +40,7 @@ export const projects: Project[] = [
     title: 'Apex Rise',
     client: 'Apex Athletics',
     year: '2025',
+    location: 'Los Angeles, CA',
     industry: 'Sports',
     service: 'Brand Film',
     serviceFilter: 'Video',
@@ -67,6 +69,7 @@ export const projects: Project[] = [
     title: 'Summit Social',
     client: 'Summit Wellness Co.',
     year: '2025',
+    location: 'Austin, TX',
     industry: 'Wellness',
     service: 'Social Campaign',
     serviceFilter: 'Social',
@@ -94,6 +97,7 @@ export const projects: Project[] = [
     title: 'Horizon Rebrand',
     client: 'Horizon Brands',
     year: '2024',
+    location: 'New York, NY',
     industry: 'Corporate',
     service: 'Brand Identity',
     serviceFilter: 'Branding',
@@ -118,6 +122,7 @@ export const projects: Project[] = [
     title: 'Forge Performance',
     client: 'Forge Digital',
     year: '2025',
+    location: 'San Francisco, CA',
     industry: 'Tech',
     service: 'Paid Media',
     serviceFilter: 'Paid Media',
@@ -142,6 +147,7 @@ export const projects: Project[] = [
     title: 'Peak Web',
     client: 'Peak Labs',
     year: '2025',
+    location: 'Seattle, WA',
     industry: 'SaaS',
     service: 'Web Design',
     serviceFilter: 'Web',
