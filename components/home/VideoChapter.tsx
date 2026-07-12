@@ -1,6 +1,6 @@
 export default function VideoChapter() {
   return (
-    <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
+    <section id="video-chapter" className="relative h-[70vh] min-h-[480px] overflow-hidden">
       <video
         autoPlay
         muted

@@ -1,74 +1,129 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import Button from '@/components/ui/Button'
-import SplitWordmark, { useWordmarkSplit } from '@/components/brand/SplitWordmark'
+import HeroPlayCursor, {
+  scrollToVideoChapter,
+  useFinePointer,
+  usePlayCursor,
+} from '@/components/home/HeroPlayCursor'
+import HeroConsentBar from '@/components/home/HeroConsentBar'
+import { useWordmarkSplit } from '@/components/brand/SplitWordmark'
 import { brand } from '@/lib/brand'
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const split = useWordmarkSplit()
   const prefersReduced = useReducedMotion()
+  const finePointer = useFinePointer()
+  const { cursor, onMouseMove, onMouseLeave } = usePlayCursor(finePointer)
+  const [parallax, setParallax] = useState(0)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const play = async () => {
+      try {
+        video.muted = true
+        await video.play()
+      } catch {
+        // Autoplay can be blocked until user interaction — retry on first click.
+      }
+    }
+
+    play()
+    video.addEventListener('loadeddata', play)
+    return () => video.removeEventListener('loadeddata', play)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setParallax(window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const copyY = prefersReduced ? 0 : parallax * 0.04
+
+  const handleHeroClick = () => {
+    void videoRef.current?.play()
+    scrollToVideoChapter()
+  }
+
+  const handleHeroKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      scrollToVideoChapter()
+    }
+  }
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16 md:px-10">
-      <div className="relative z-10 flex w-full max-w-7xl flex-col items-center text-center">
-        <motion.p
-          initial={prefersReduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8 text-[10px] font-semibold uppercase tracking-[0.22em] text-pe-gray-light"
-        >
-          {brand.descriptor}
-        </motion.p>
+    <>
+      {finePointer && <HeroPlayCursor x={cursor.x} y={cursor.y} visible={cursor.visible} />}
 
-        <SplitWordmark size="hero" split={split} />
-
-        <motion.h1
-          initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-12 max-w-3xl font-display text-3xl uppercase leading-[1.05] tracking-tight text-pe-white md:text-5xl lg:text-6xl"
+      <section
+        className={`relative isolate min-h-screen overflow-hidden ${finePointer ? 'cursor-none' : ''}`}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        onClick={handleHeroClick}
+        onKeyDown={handleHeroKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-label="Play showreel"
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+          aria-hidden
         >
-          {brand.voice.thesis}
-        </motion.h1>
+          <source src="/assets/hero-bg.mp4" type="video/mp4" />
+          <source src="/assets/hero-bg.mov" type="video/quicktime" />
+        </video>
 
-        <motion.p
-          initial={prefersReduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-6 max-w-md text-sm leading-relaxed text-pe-gray-light md:text-base"
-        >
-          {brand.tagline}. Concept to production to distribution — one partner for the whole climb.
-        </motion.p>
+        {!finePointer && (
+          <span className="pointer-events-none absolute right-6 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 border border-pe-gray/30 bg-pe-black/70 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-pe-white backdrop-blur-sm md:right-10">
+            <span className="text-[8px]" aria-hidden>
+              ▶
+            </span>
+            Play
+          </span>
+        )}
+
+        <HeroConsentBar />
 
         <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+          className="pointer-events-none absolute bottom-0 left-0 z-10 w-full px-6 pb-10 mix-blend-difference md:px-10 md:pb-14"
+          style={{ y: copyY }}
+          initial={prefersReduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.65 }}
-          className="mt-10 flex flex-wrap justify-center gap-4"
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button href="/contact">Start a project</Button>
-          <Button href="/work" variant="ghost">
-            See the work
-          </Button>
-        </motion.div>
-      </div>
+          <h1 className="flex max-w-3xl flex-col items-start leading-[1.02] text-pe-white">
+            <span
+              className="font-sans text-[clamp(2.25rem,5.5vw,4.25rem)] font-light tracking-tight transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{ transform: `translateX(${-split}px)` }}
+            >
+              We make brands
+            </span>
+            <span
+              className="font-sans text-[clamp(2.25rem,5.5vw,4.25rem)] font-light tracking-tight transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{ transform: `translateX(${split}px)` }}
+            >
+              move faster.
+            </span>
+          </h1>
 
-      <motion.div
-        initial={prefersReduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="absolute bottom-10 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] uppercase tracking-[0.2em] text-pe-gray">Scroll</span>
-        {!prefersReduced && (
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.6 }}
-            className="block h-6 w-px bg-pe-gray"
-          />
-        )}
-      </motion.div>
-    </section>
+          <p className="mt-4 max-w-md font-sans text-base font-light leading-relaxed md:text-lg">
+            {brand.tagline}. Concept to production to distribution — one partner for the whole climb.
+          </p>
+        </motion.div>
+      </section>
+    </>
   )
 }

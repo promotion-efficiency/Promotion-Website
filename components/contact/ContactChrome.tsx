@@ -1,20 +1,54 @@
+'use client'
+
+import { useState } from 'react'
+import { LayoutGroup, motion } from 'framer-motion'
 import Link from 'next/link'
-import SplitWordmark from '@/components/brand/SplitWordmark'
+import NavLogo from '@/components/brand/NavLogo'
+import NavCompactPanel from '@/components/layout/NavCompact'
+import { navFloatClass, navFloatWrapClass, navLinkClass } from '@/components/layout/navConfig'
+import { liquidTransition } from '@/lib/navMotion'
 
 export default function ContactChrome() {
+  const [compactOpen, setCompactOpen] = useState(false)
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-pe-gray/20 bg-pe-black/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
-        <Link href="/" aria-label="Promotion Efficiency home">
-          <SplitWordmark size="nav" interactive split={0} />
-        </Link>
-        <Link
-          href="/"
-          className="text-xs font-semibold uppercase tracking-[0.14em] text-pe-gray-light transition-colors hover:text-pe-white"
-        >
-          ← Back
-        </Link>
-      </div>
+    <header className={navFloatWrapClass}>
+      <LayoutGroup id="contact-nav">
+        <motion.div layout className={`${navFloatClass} overflow-hidden`} transition={liquidTransition}>
+          <motion.div layout="position" transition={liquidTransition}>
+            <NavLogo />
+          </motion.div>
+
+          <motion.div
+            layout
+            className="flex min-w-0 flex-1 items-center"
+            transition={liquidTransition}
+          >
+            <Link
+              href="/"
+              className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
+            >
+              Home
+            </Link>
+
+            <motion.button
+              type="button"
+              onClick={() => setCompactOpen((v) => !v)}
+              className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center text-pe-gray-light transition-colors hover:text-pe-white"
+              aria-label={compactOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={compactOpen}
+            >
+              <motion.span
+                className="block h-px w-4 bg-current"
+                animate={{ scaleX: compactOpen ? 0.6 : 1 }}
+                transition={liquidTransition}
+              />
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        <NavCompactPanel open={compactOpen} onClose={() => setCompactOpen(false)} />
+      </LayoutGroup>
     </header>
   )
 }

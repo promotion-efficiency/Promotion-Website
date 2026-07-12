@@ -1,16 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '@/lib/projects'
 import { serviceFilters } from '@/lib/brand'
 import WorkCard from '@/components/work/WorkCard'
 import ClientMarquee from '@/components/shared/ClientMarquee'
 import QuoteCTA from '@/components/shared/QuoteCTA'
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default function WorkIndex() {
   const [filter, setFilter] = useState<string>('All')
   const prefersReduced = useReducedMotion()
+  const pinSectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = pinSectionRef.current
+    if (!section || prefersReduced) return
+
+    const mm = gsap.matchMedia()
+    mm.add('(min-width: 1024px)', () => {
+      const trigger = ScrollTrigger.create({
+        trigger: section,
+        start: 'center center',
+        end: '+=700',
+        pin: true,
+        pinSpacing: true,
+        scrub: true,
+      })
+
+      return () => trigger.kill()
+    })
+
+    return () => mm.revert()
+  }, [prefersReduced])
 
   const filtered =
     filter === 'All' ? projects : projects.filter((p) => p.serviceFilter === filter)
@@ -45,7 +71,7 @@ export default function WorkIndex() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 pb-24 md:px-10">
+      <div ref={pinSectionRef} className="mx-auto max-w-7xl px-6 pb-24 md:px-10">
         <motion.div
           key={filter}
           initial={prefersReduced ? false : { opacity: 0 }}

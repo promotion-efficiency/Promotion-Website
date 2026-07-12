@@ -1,117 +1,224 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import SplitWordmark from '@/components/brand/SplitWordmark'
-import Button from '@/components/ui/Button'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import NavLogo from '@/components/brand/NavLogo'
+import NavCompactPanel from '@/components/layout/NavCompact'
+import {
+  navFloatClass,
+  navFloatWrapClass,
+  navLinkClass,
+  navMenuClass,
+  PRIMARY_NAV,
+} from '@/components/layout/navConfig'
+import { liquidEase, liquidTransition } from '@/lib/navMotion'
 
-const NAV = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-]
-
-const SECTIONS = [
-  { id: 'manifesto', label: 'Manifesto' },
-  { id: 'services', label: 'Services' },
-  { id: 'work', label: 'Work' },
-  { id: 'proof', label: 'Proof' },
-]
+const linkReveal = {
+  hidden: { opacity: 0, x: 12, filter: 'blur(4px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: { delay: i * 0.035, duration: 0.45, ease: liquidEase },
+  }),
+  exit: (i: number) => ({
+    opacity: 0,
+    x: -10,
+    filter: 'blur(3px)',
+    transition: { delay: i * 0.02, duration: 0.3, ease: liquidEase },
+  }),
+}
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
-  const [pastHero, setPastHero] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const [pastHero, setPastHero] = useState(!isHome)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [compactOpen, setCompactOpen] = useState(false)
+
+  const inHero = isHome && !pastHero
+  const compactBar = !inHero
+  const blendNav = inHero
+
+  useEffect(() => {
+    setPastHero(!isHome)
+    setCompactOpen(false)
+    setMenuOpen(false)
+  }, [isHome])
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY
-      setScrolled(y > 40)
-      setPastHero(y > window.innerHeight * 0.7)
+      if (!isHome) {
+        setPastHero(true)
+        return
+      }
+      setPastHero(window.scrollY > window.innerHeight * 0.85)
     }
+
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [isHome])
+
+  useEffect(() => {
+    if (inHero) setCompactOpen(false)
+  }, [inHero])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen || compactOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen, compactOpen])
+
+  const floatClass = `${navFloatClass} ${blendNav ? 'mix-blend-difference' : ''} overflow-hidden`
+  const linkClass = blendNav
+    ? `${navLinkClass} text-pe-white`
+    : `${navLinkClass} text-pe-gray-light`
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-pe-black/90 backdrop-blur-md border-b border-pe-gray/20' : 'bg-transparent'
-      }`}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
-        <Link href="/" className="block">
-          {pastHero ? (
-            <SplitWordmark size="nav" interactive split={0} />
-          ) : (
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-pe-gray-light">
-              PE
-            </span>
-          )}
-        </Link>
-
-        {pastHero && (
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 md:flex">
-            {SECTIONS.map((s) => (
-              <a
-                key={s.id}
-                href={`/#${s.id}`}
-                className="text-[10px] font-semibold uppercase tracking-[0.16em] text-pe-gray-light transition-colors hover:text-pe-white"
-              >
-                {s.label}
-              </a>
-            ))}
-          </nav>
-        )}
-
-        <div className="hidden items-center gap-6 md:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-xs font-semibold uppercase tracking-[0.12em] text-pe-gray-light transition-colors hover:text-pe-white"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Button href="/contact" className="!px-4 !py-2 !text-[10px]">
-            Start a project
-          </Button>
-        </div>
-
-        <button
-          type="button"
-          className="md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
+    <header className={navFloatWrapClass}>
+      <LayoutGroup id="site-nav">
+        <motion.div
+          layout
+          className={floatClass}
+          transition={liquidTransition}
+          style={{ borderRadius: compactOpen && compactBar ? 0 : undefined }}
         >
-          <span className={`block h-px w-5 bg-pe-white transition-transform ${menuOpen ? 'translate-y-[5px] rotate-45' : ''}`} />
-          <span className={`my-1.5 block h-px w-5 bg-pe-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block h-px w-5 bg-pe-white transition-transform ${menuOpen ? '-translate-y-[5px] -rotate-45' : ''}`} />
-        </button>
-      </div>
+          <motion.div layout="position" transition={liquidTransition}>
+            <NavLogo />
+          </motion.div>
 
-      {menuOpen && (
-        <nav className="border-t border-pe-gray/20 bg-pe-black px-6 py-6 md:hidden">
-          <div className="flex flex-col gap-4">
-            {[...NAV, { label: 'Services', href: '/#services' }].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-sm font-semibold uppercase tracking-[0.12em]"
+          <AnimatePresence mode="popLayout" initial={false}>
+            {inHero ? (
+              <motion.nav
+                key="hero-nav"
+                layout
+                className={navMenuClass}
+                aria-label="Primary"
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={liquidTransition}
               >
-                {item.label}
-              </Link>
-            ))}
-            <Button href="/contact" onClick={() => setMenuOpen(false)}>
-              Start a project
-            </Button>
-          </div>
-        </nav>
-      )}
+                {PRIMARY_NAV.map((item, i) => (
+                  <motion.span
+                    key={item.href}
+                    custom={i}
+                    variants={linkReveal}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="inline-block whitespace-nowrap"
+                  >
+                    <Link href={item.href} className={linkClass}>
+                      {item.label}
+                    </Link>
+                  </motion.span>
+                ))}
+              </motion.nav>
+            ) : (
+              <motion.div
+                key="compact-nav"
+                layout
+                className="flex min-w-0 flex-1 items-center"
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={liquidTransition}
+              >
+                <motion.div
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 12 }}
+                  transition={{ duration: 0.45, ease: liquidEase }}
+                >
+                  <Link
+                    href="/"
+                    className={`${navLinkClass} border-l border-pe-white/15 pl-3 text-pe-gray-light md:pl-4`}
+                  >
+                    Home
+                  </Link>
+                </motion.div>
+
+                <motion.button
+                  type="button"
+                  onClick={() => setCompactOpen((v) => !v)}
+                  className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center text-pe-gray-light transition-colors hover:text-pe-white"
+                  aria-label={compactOpen ? 'Close menu' : 'Open menu'}
+                  aria-expanded={compactOpen}
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.4, ease: liquidEase }}
+                >
+                  <motion.span
+                    className="block h-px w-4 bg-current"
+                    animate={{ scaleX: compactOpen ? 0.6 : 1 }}
+                    transition={liquidTransition}
+                  />
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {inHero && (
+            <motion.button
+              type="button"
+              layout
+              className={`ml-1 flex h-7 w-7 shrink-0 items-center justify-center lg:hidden ${blendNav ? 'text-pe-white' : 'text-pe-gray-light'}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              transition={liquidTransition}
+            >
+              <span className={`block h-px w-4 bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? 'translate-y-[4px] rotate-45' : ''}`} />
+              <span className={`my-1 block h-px w-4 bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-px w-4 bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? '-translate-y-[4px] -rotate-45' : ''}`} />
+            </motion.button>
+          )}
+        </motion.div>
+
+        <AnimatePresence>
+          {inHero && menuOpen && (
+            <motion.nav
+              key="mobile-menu"
+              aria-label="Mobile"
+              initial={{ opacity: 0, height: 0, y: -4 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -4 }}
+              transition={liquidTransition}
+              className={`${navFloatClass} w-full min-w-[12rem] overflow-hidden border-t-0`}
+            >
+              <div className="flex flex-col gap-3 p-3">
+                {PRIMARY_NAV.map((item, i) => (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    transition={{ delay: i * 0.04, duration: 0.35, ease: liquidEase }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`${navLinkClass} text-pe-gray-light`}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
+
+        {compactBar && (
+          <NavCompactPanel open={compactOpen} onClose={() => setCompactOpen(false)} />
+        )}
+      </LayoutGroup>
     </header>
   )
 }

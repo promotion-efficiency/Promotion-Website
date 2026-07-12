@@ -1,0 +1,24 @@
+export const PRIMARY_NAV = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Manifesto', href: '/#manifesto' },
+  { label: 'Contact', href: '/contact' },
+] as const
+
+export const CHANNEL_LINKS = [
+  { label: 'Instagram', href: 'https://instagram.com/PromotionEfficiency' },
+  { label: 'Email', href: 'mailto:hello@promotionefficiency.com' },
+] as const
+
+export const navLinkClass =
+  'text-[10px] font-medium uppercase tracking-[0.1em] transition-opacity hover:opacity-70'
+
+export const navFloatClass =
+  'flex h-10 max-w-full items-center gap-3 border border-pe-white/15 bg-pe-black/55 px-2.5 backdrop-blur-md md:h-11 md:gap-4 md:px-3'
+
+export const navMenuClass =
+  'hidden items-center gap-4 border-l border-pe-white/15 pl-3 md:gap-5 md:pl-4 lg:flex'
+
+export const navFloatWrapClass =
+  'fixed top-4 left-[5vw] z-50 flex max-w-[calc(100vw-10vw)] flex-col items-start gap-2 md:top-5'

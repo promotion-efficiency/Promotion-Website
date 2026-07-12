@@ -77,7 +77,43 @@ body {
   display: none;
 }
 
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes hero-float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .hero-float {
+    animation: hero-float 4.5s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .hero-float-delayed {
+    animation: hero-float 5.2s ease-in-out infinite;
+    animation-delay: 0.8s;
+    transform-origin: center;
+  }
+
+  .hero-float-slow {
+    animation: hero-float-slow 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
   .about-reveal {
     animation: about-fade-up 0.6s ease both;
     animation-timeline: view();
