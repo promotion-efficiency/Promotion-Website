@@ -9,6 +9,8 @@ import { brand } from '@/lib/brand'
 import { assetPath } from '@/lib/paths'
 import { liquidSpring, liquidTransition } from '@/lib/navMotion'
 
+const HERO_VIDEO_SRC = `${assetPath('/assets/hero-bg.mp4')}?v=canon-2026`
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const split = useWordmarkSplit()
@@ -129,15 +131,16 @@ export default function Hero() {
           transition={prefersReduced ? { duration: 0.25 } : liquidSpring}
         >
           <video
+            key={HERO_VIDEO_SRC}
             ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             className="h-full w-full object-cover"
             aria-hidden
-            src={assetPath('/assets/hero-bg.mp4')}
+            src={HERO_VIDEO_SRC}
           />
         </motion.div>
 

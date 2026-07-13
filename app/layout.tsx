@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Bebas_Neue, Inter } from 'next/font/google'
+import { assetPath } from '@/lib/paths'
 import './globals.css'
 
 // TODO: swap to licensed NORD + Gotham per /brand/guidelines.pdf
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
   title: 'Promotion Efficiency — Your Hike to PEAK',
   description:
     'Promotion Efficiency is the marketing partner for ambitious brands. From concept to production to distribution — we make brands move faster.',
+  icons: {
+    icon: [{ url: assetPath('/assets/nav-mark-pe.png'), type: 'image/png' }],
+    apple: assetPath('/assets/nav-mark-pe.png'),
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

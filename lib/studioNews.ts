@@ -31,7 +31,7 @@ export const studioNews: StudioNewsItem[] = [
   {
     slug: 'social-first-launch-playbook',
     title: 'Social-first launches: smart strategy, vague timelines',
-    image: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
     category: 'Press',
     date: 'Wed 18 Mar',
     href: '#',
