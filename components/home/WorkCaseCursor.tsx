@@ -2,9 +2,17 @@ type WorkCaseCursorProps = {
   x: number
   y: number
   visible: boolean
+  label?: string
+  icon?: string
 }
 
-export default function WorkCaseCursor({ x, y, visible }: WorkCaseCursorProps) {
+export default function WorkCaseCursor({
+  x,
+  y,
+  visible,
+  label = 'View case',
+  icon = '↗',
+}: WorkCaseCursorProps) {
   if (!visible) return null
 
   return (
@@ -17,8 +25,8 @@ export default function WorkCaseCursor({ x, y, visible }: WorkCaseCursorProps) {
       }}
       aria-hidden
     >
-      <span className="text-[8px]">↗</span>
-      View case
+      <span className="text-[8px]">{icon}</span>
+      {label}
     </div>
   )
 }

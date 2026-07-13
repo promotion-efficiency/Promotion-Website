@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import HeroPlayCursor, { useFinePointer, usePlayCursor } from '@/components/home/HeroPlayCursor'
+import { useHeroExpandedMode } from '@/components/home/HeroExpandedMode'
 import HeroConsentBar from '@/components/home/HeroConsentBar'
 import { useWordmarkSplit } from '@/components/brand/SplitWordmark'
 import { brand } from '@/lib/brand'
@@ -19,6 +20,12 @@ export default function Hero() {
   const { cursor, onMouseMove, onMouseLeave } = usePlayCursor(finePointer)
   const [parallax, setParallax] = useState(0)
   const [expanded, setExpanded] = useState(false)
+  const { setHeroExpanded } = useHeroExpandedMode()
+
+  useEffect(() => {
+    setHeroExpanded(expanded)
+    return () => setHeroExpanded(false)
+  }, [expanded, setHeroExpanded])
 
   useEffect(() => {
     const video = videoRef.current
