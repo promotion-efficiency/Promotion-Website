@@ -60,9 +60,9 @@ export default function QuoteFlow() {
   }
 
   const formatBudget = (v: number) => {
-    if (v >= BUDGET_MAX) return '$100k+'
-    if (v >= 1000) return `$${Math.round(v / 1000)}k`
-    return `$${v}`
+    if (v >= BUDGET_MAX) return 'SAR 100K+'
+    if (v >= 1000) return `SAR ${Math.round(v / 1000)}K`
+    return `SAR ${v.toLocaleString()}`
   }
 
   const go = (next: number) => {
@@ -177,8 +177,8 @@ export default function QuoteFlow() {
             aria-label="Budget range"
           />
           <div className="mt-2 flex justify-between text-xs text-pe-gray">
-            <span>$2k</span>
-            <span>$100k+</span>
+            <span>SAR 2K</span>
+            <span>SAR 100K+</span>
           </div>
         </div>
       ),
