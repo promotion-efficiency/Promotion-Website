@@ -90,18 +90,31 @@ export const quoteServiceOptions = [
   { id: 'paid', label: 'Paid Media', desc: 'Performance, ads, analytics' },
 ] as const
 
-export const clients = [
-  'Apex Athletics',
-  'Summit Co.',
-  'Horizon Brands',
-  'Forge Digital',
-  'Peak Labs',
-  'Elevate',
-  'Trailhead',
-  'Basecamp',
-  'Ridge Media',
-  'Alpine Group',
-] as const
+export type ClientLogo = {
+  name: string
+  logo?: string
+}
+
+export const clientLogos: readonly ClientLogo[] = [
+  { name: 'Apex Athletics' },
+  { name: 'Summit Co.' },
+  { name: 'Horizon Brands' },
+  { name: 'Forge Digital' },
+  { name: 'Peak Labs' },
+  { name: 'Elevate' },
+  { name: 'Trailhead' },
+  { name: 'Basecamp' },
+  { name: 'Ridge Media' },
+  { name: 'Alpine Group' },
+  { name: 'Northline' },
+  { name: 'Meridian' },
+  { name: 'Crest & Co.' },
+  { name: 'Vantage' },
+  { name: 'Summit Media' },
+]
+
+/** @deprecated Use clientLogos instead */
+export const clients = clientLogos.map((c) => c.name)
 
 export const testimonials = [
   {
