@@ -20,8 +20,7 @@ export const metadata: Metadata = {
   description:
     'Promotion Efficiency is the marketing partner for ambitious brands. From concept to production to distribution — we make brands move faster.',
   icons: {
-    icon: [{ url: assetPath('/assets/pe-favicon.png'), type: 'image/png' }],
-    apple: assetPath('/assets/pe-favicon.png'),
+    icon: [{ url: assetPath('/assets/pe-favicon.png'), type: 'image/png', sizes: '512x512' }],
   },
 }
 

@@ -191,7 +191,7 @@ export default function Hero() {
           <HeroConsentBar />
 
           <motion.div
-            className="pointer-events-none absolute bottom-0 left-0 hidden w-full px-6 pb-10 md:block md:px-10 md:pb-14"
+            className="pointer-events-none absolute bottom-0 left-0 hidden w-full px-[5vw] pb-10 md:block md:pb-14"
             style={{ y: copyY }}
             initial={prefersReduced ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

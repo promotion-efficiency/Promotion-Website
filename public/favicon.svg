@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet" fill="none">
   <rect width="32" height="32" fill="#000"/>
-  <text x="16" y="12" text-anchor="middle" fill="#fff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="4.5" font-weight="500" letter-spacing="0.08em">PROMOTION</text>
-  <text x="16" y="21" text-anchor="middle" fill="#fff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="4.5" font-weight="500" letter-spacing="0.08em">EFFICIENCY</text>
+  <text x="16" y="13.5" text-anchor="middle" fill="#fff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="3.2" font-weight="500" letter-spacing="0.12em">PROMOTION</text>
+  <text x="16" y="18.5" text-anchor="middle" fill="#fff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="3.2" font-weight="500" letter-spacing="0.12em">EFFICIENCY</text>
 </svg>

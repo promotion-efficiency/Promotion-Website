@@ -16,6 +16,7 @@ import {
   getCompactNavContext,
 } from '@/components/layout/navConfig'
 import { liquidEase, navLayoutTransition, navSmoothEase, navSmoothTransition } from '@/lib/navMotion'
+import { useWorkListMode } from '@/components/home/WorkListMode'
 
 const linkReveal = {
   hidden: { opacity: 0, x: 8 },
@@ -59,6 +60,7 @@ const mobileHeroActionClass =
   'flex items-center justify-center border border-white/25 bg-black/35 text-white backdrop-blur-sm transition-colors duration-300 hover:bg-black/50'
 
 export default function Header() {
+  const { listMode } = useWorkListMode()
   const pathname = usePathname()
   const isHome = pathname === '/'
   const [pastHero, setPastHero] = useState(!isHome)
@@ -135,6 +137,8 @@ export default function Header() {
   const handleGridClick = () => {
     document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  if (listMode) return null
 
   return (
     <header className={mobileHeroChrome ? 'fixed top-0 left-0 right-0 z-50 px-[5vw] pt-4' : navFloatWrapClass}>

@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-mot
 import { projects, type Project } from '@/lib/projects'
 import { liquidEase } from '@/lib/navMotion'
 import WorkViewToggle from '@/components/home/WorkViewToggle'
+import { useWorkListMode } from '@/components/home/WorkListMode'
 import WorkCaseCursor from '@/components/home/WorkCaseCursor'
 import { useFinePointer, usePlayCursor } from '@/components/home/HeroPlayCursor'
 
@@ -433,9 +434,13 @@ function ListView({ fullscreen = false }: { fullscreen?: boolean }) {
 export default function LatestWork() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const sectionInView = useInView(sectionRef, { amount: 0.12, margin: '0px 0px -80px 0px' })
-  const [listMode, setListMode] = useState(false)
+  const { listMode, setListMode } = useWorkListMode()
 
   useScrollLock(listMode)
+
+  useEffect(() => {
+    return () => setListMode(false)
+  }, [setListMode])
 
   useEffect(() => {
     if (!listMode) return
