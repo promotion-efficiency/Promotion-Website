@@ -51,6 +51,6 @@ Output is written to `out/`.
 
 ## TODO
 
-- Swap Bebas Neue / Inter → licensed NORD / Gotham
+- Fonts: NORD (display) + Gotham (body) in `public/fonts/`
 - Replace placeholder media in `lib/projects.ts`
 - Connect quote form backend in `components/contact/QuoteFlow.tsx`

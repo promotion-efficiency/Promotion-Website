@@ -1,18 +1,27 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import { assetPath } from '@/lib/paths'
 import './globals.css'
 
-// TODO: swap to licensed NORD + Gotham per /brand/guidelines.pdf
-const nord = Bebas_Neue({
-  weight: '400',
-  subsets: ['latin'],
+const nord = localFont({
+  src: [
+    { path: '../public/fonts/Nord-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../public/fonts/Nord-Medium.ttf', weight: '500', style: 'normal' },
+    { path: '../public/fonts/Nord-Bold.ttf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-nord',
+  display: 'swap',
 })
 
-const gotham = Inter({
-  subsets: ['latin'],
+const gotham = localFont({
+  src: [
+    { path: '../public/fonts/Gotham-Light.otf', weight: '300', style: 'normal' },
+    { path: '../public/fonts/Gotham-Book.otf', weight: '400', style: 'normal' },
+    { path: '../public/fonts/Gotham-Medium.otf', weight: '500', style: 'normal' },
+    { path: '../public/fonts/Gotham-Bold.otf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-gotham',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
