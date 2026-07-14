@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { Project } from '@/lib/projects'
 import { getNextProject } from '@/lib/projects'
+import { markProjectSeen } from '@/lib/workSeen'
 import AnimatedStats from '@/components/shared/AnimatedStats'
 import Button from '@/components/ui/Button'
 
@@ -62,6 +64,10 @@ function StoryBlock({ block }: { block: Project['storyBlocks'][0] }) {
 
 export default function CaseStudyView({ project }: CaseStudyViewProps) {
   const next = getNextProject(project.slug)
+
+  useEffect(() => {
+    markProjectSeen(project.slug)
+  }, [project.slug])
 
   const meta = [
     { label: 'Client', value: project.client },

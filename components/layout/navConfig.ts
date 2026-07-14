@@ -12,7 +12,7 @@ export const CHANNEL_LINKS = [
 ] as const
 
 export const navLinkClass =
-  'text-[10px] font-medium uppercase tracking-[0.1em] transition-opacity hover:opacity-70'
+  'text-[10px] font-medium uppercase tracking-[0.1em] transition-colors duration-300 hover:text-pe-orange'
 
 export const navFloatClass =
   'flex h-10 max-w-full items-center gap-3 border border-pe-white/15 bg-pe-black/80 px-2.5 backdrop-blur-md md:h-11 md:gap-4 md:px-3'

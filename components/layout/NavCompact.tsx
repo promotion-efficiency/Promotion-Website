@@ -52,7 +52,7 @@ export default function NavCompactPanel({
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className={`block text-[1.65rem] font-normal leading-tight tracking-tight transition-opacity duration-300 hover:opacity-65 ${
+                  className={`block text-[1.65rem] font-normal leading-tight tracking-tight transition-colors duration-300 hover:text-pe-orange ${
                     pathname === item.href
                       ? isHero
                         ? 'text-white'
@@ -92,9 +92,7 @@ export default function NavCompactPanel({
                   target={item.href.startsWith('http') ? '_blank' : undefined}
                   rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   onClick={onClose}
-                  className={`transition-opacity duration-300 hover:opacity-65 ${
-                    isHero ? 'hover:text-white' : 'hover:text-pe-white'
-                  }`}
+                  className="transition-colors duration-300 hover:text-pe-orange"
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.12 + i * 0.03, duration: 0.3, ease: navSmoothEase }}

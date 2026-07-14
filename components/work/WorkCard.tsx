@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Project } from '@/lib/projects'
+import WorkCaseCursor from '@/components/home/WorkCaseCursor'
+import { useFinePointer, usePlayCursor } from '@/components/home/HeroPlayCursor'
 
 type WorkCardProps = {
   project: Project
@@ -14,6 +16,8 @@ type WorkCardProps = {
 export default function WorkCard({ project, index }: WorkCardProps) {
   const [hovered, setHovered] = useState(false)
   const prefersReduced = useReducedMotion()
+  const finePointer = useFinePointer()
+  const { cursor, onMouseEnter, onMouseLeave, onMouseMove } = usePlayCursor(finePointer)
 
   const spanClass = project.featured
     ? 'col-span-1 row-span-2 md:col-span-2 md:row-span-2'
@@ -21,25 +25,36 @@ export default function WorkCard({ project, index }: WorkCardProps) {
 
   return (
     <motion.div
-      initial={prefersReduced ? false : { opacity: 0, y: 20 }}
+      initial={prefersReduced ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       className={spanClass}
     >
       <Link
         href={`/work/${project.slug}`}
         className="group block h-full"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={(e) => {
+          setHovered(true)
+          onMouseEnter(e)
+        }}
+        onMouseLeave={() => {
+          setHovered(false)
+          onMouseLeave()
+        }}
+        onMouseMove={onMouseMove}
       >
-        <div className="relative h-full min-h-[280px] overflow-hidden bg-pe-surface transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-[0_24px_48px_rgba(0,0,0,0.4)] md:min-h-[320px]">
+        <div className="relative h-full min-h-[280px] overflow-hidden bg-pe-charcoal md:min-h-[320px]">
           <motion.div layoutId={`project-cover-${project.slug}`} className="absolute inset-0">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              sizes={project.featured ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 100vw, 33vw'}
+              className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+              sizes={
+                project.featured
+                  ? '(max-width: 768px) 100vw, 50vw'
+                  : '(max-width: 768px) 100vw, 25vw'
+              }
             />
           </motion.div>
 
@@ -54,21 +69,32 @@ export default function WorkCard({ project, index }: WorkCardProps) {
             />
           )}
 
-          <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-          <div className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center border border-white/30 text-white opacity-0 transition-opacity group-hover:opacity-100">
-            <span aria-hidden>→</span>
-          </div>
+          <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
 
           <div className="absolute bottom-0 left-0 right-0 z-20 p-5 md:p-6">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/65">
               {project.serviceFilter}
+              <span className="mx-2 text-white/35">·</span>
+              {project.year}
             </span>
-            <h2 className="mt-1 font-display text-2xl uppercase text-white md:text-3xl">{project.client}</h2>
-            <p className="mt-1 text-xs text-white/75">{project.resultStat}</p>
+            <h2 className="mt-2 font-sans text-[clamp(1.25rem,2vw,1.75rem)] font-medium leading-tight tracking-tight text-white">
+              {project.client}
+            </h2>
+            <p className="mt-1.5 max-w-sm text-xs leading-relaxed text-white/70 md:text-[13px]">
+              {project.resultStat}
+            </p>
           </div>
         </div>
       </Link>
+
+      {finePointer && (
+        <WorkCaseCursor
+          x={cursor.x}
+          y={cursor.y}
+          visible={cursor.visible}
+          label="View case"
+        />
+      )}
     </motion.div>
   )
 }
