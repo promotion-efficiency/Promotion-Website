@@ -47,16 +47,6 @@ function useHoverExpand() {
   return canHover
 }
 
-function GridDotsIcon() {
-  return (
-    <span className="grid grid-cols-2 gap-1" aria-hidden>
-      {Array.from({ length: 4 }).map((_, index) => (
-        <span key={index} className="h-1 w-1 rounded-full bg-current" />
-      ))}
-    </span>
-  )
-}
-
 const mobileHeroActionClass =
   'flex items-center justify-center border border-white/25 bg-black/35 text-white backdrop-blur-sm transition-colors duration-300 hover:bg-black/50'
 
@@ -136,10 +126,6 @@ export default function Header() {
     setCompactOpen(true)
   }
 
-  const handleGridClick = () => {
-    document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   if (listMode || heroExpanded) return null
 
   return (
@@ -149,25 +135,15 @@ export default function Header() {
           <>
             <div className="flex items-center justify-between">
               <NavLogo />
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setMenuOpen((open) => !open)}
-                  className={`${mobileHeroActionClass} h-10 px-4 text-[10px] font-semibold uppercase tracking-[0.14em]`}
-                  aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                  aria-expanded={menuOpen}
-                >
-                  Menu
-                </button>
-                <button
-                  type="button"
-                  onClick={handleGridClick}
-                  className={`${mobileHeroActionClass} h-10 w-10`}
-                  aria-label="Go to work"
-                >
-                  <GridDotsIcon />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                className={`${mobileHeroActionClass} h-10 px-4 text-[10px] font-semibold uppercase tracking-[0.14em]`}
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+              >
+                Menu
+              </button>
             </div>
 
             <NavCompactPanel open={menuOpen} onClose={() => setMenuOpen(false)} variant="hero" />

@@ -275,7 +275,7 @@ export default function AboutContent() {
 
             <div className="ml-auto w-full max-w-2xl text-right">
               <nav
-                className="mb-6 flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.16em]"
+                className="mb-6 hidden flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.16em] lg:flex"
                 aria-label="About sections"
               >
                 <span className="text-pe-gray">(Jump to)</span>

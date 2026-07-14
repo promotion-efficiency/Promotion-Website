@@ -69,10 +69,11 @@ export default function ServicesContent() {
 
   useEffect(() => {
     const syncActive = () => {
+      if (window.innerWidth < 1024) return
+
       const nodes = sectionRefs.current.filter(Boolean) as HTMLElement[]
       if (!nodes.length) return
 
-      // Active = last article whose top has crossed ~40% down the viewport
       const trigger = window.innerHeight * 0.4
       let next = 0
       for (let i = 0; i < nodes.length; i++) {
@@ -93,7 +94,7 @@ export default function ServicesContent() {
 
   return (
     <>
-      <section className="relative h-[50svh] min-h-[20rem] w-full overflow-hidden bg-pe-charcoal">
+      <section className="relative h-[38svh] min-h-[14rem] w-full overflow-hidden bg-pe-charcoal md:h-[50svh] md:min-h-[20rem]">
         <Image
           src={mediaSrc(HERO_IMAGE)}
           alt="Promotion Efficiency services"
@@ -104,22 +105,22 @@ export default function ServicesContent() {
         />
       </section>
 
-      <section className="pt-28 pb-16 md:pt-36 md:pb-20">
+      <section className="pt-16 pb-12 md:pt-36 md:pb-20">
         <div className="w-full px-[5vw]">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-16">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-pe-gray">
                 Services
               </p>
-              <p className="mt-8 max-w-xl text-sm leading-relaxed text-pe-gray-light md:text-base">
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-pe-gray-light md:mt-8 md:text-base">
                 From concept to production to distribution — one partner for the whole climb.{' '}
                 {brand.tagline}.
               </p>
             </div>
 
-            <div className="ml-auto w-full max-w-2xl text-right">
+            <div className="w-full max-w-2xl lg:ml-auto lg:text-right">
               <nav
-                className="mb-6 flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.16em]"
+                className="mb-6 hidden flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.16em] lg:flex"
                 aria-label="Service sections"
               >
                 <span className="text-pe-gray">(Jump to)</span>
@@ -134,7 +135,7 @@ export default function ServicesContent() {
                 ))}
               </nav>
 
-              <h1 className="font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] font-medium leading-snug tracking-tight text-pe-white">
+              <h1 className="font-sans text-[clamp(1.5rem,5.5vw,2.75rem)] font-medium leading-snug tracking-tight text-pe-white">
                 Five disciplines. One system. Every move counted.
               </h1>
             </div>
@@ -142,11 +143,11 @@ export default function ServicesContent() {
         </div>
       </section>
 
-      <section className="border-t border-pe-gray/20 bg-pe-black py-16 md:py-24">
+      <section className="border-t border-pe-gray/20 bg-pe-black py-12 md:py-24">
         <div className="w-full px-[5vw]">
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-10 xl:gap-12">
-            {/* Left rail — video ends before the right copy (red-line width) */}
-            <aside className="flex w-full shrink-0 flex-col lg:sticky lg:top-28 lg:h-[calc(100svh-7rem)] lg:w-[min(62rem,66vw)] lg:self-start lg:pb-6 xl:w-[min(66rem,68vw)]">
+          <div className="flex flex-col gap-14 lg:flex-row lg:items-start lg:gap-10 xl:gap-12">
+            {/* Desktop sticky rail only */}
+            <aside className="hidden w-[min(62rem,66vw)] shrink-0 flex-col lg:sticky lg:top-28 lg:flex lg:h-[calc(100svh-7rem)] lg:self-start lg:pb-6 xl:w-[min(66rem,68vw)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeService.id}
@@ -165,7 +166,7 @@ export default function ServicesContent() {
                 </motion.div>
               </AnimatePresence>
 
-              <div className="relative mt-8 hidden min-h-0 flex-1 lg:block">
+              <div className="relative mt-8 min-h-0 flex-1">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`video-${activeService.id}`}
@@ -185,8 +186,8 @@ export default function ServicesContent() {
               </div>
             </aside>
 
-            {/* Right scrolling content */}
-            <div className="ml-auto w-full max-w-xl space-y-28 md:space-y-36 lg:max-w-[min(32rem,34vw)]">
+            {/* Shared service stack — full cards on mobile, lists on desktop */}
+            <div className="w-full space-y-16 md:space-y-24 lg:ml-auto lg:max-w-[min(32rem,34vw)] lg:space-y-36">
               {services.map((service, index) => (
                 <article
                   key={service.id}
@@ -195,25 +196,25 @@ export default function ServicesContent() {
                   ref={(el) => {
                     sectionRefs.current[index] = el
                   }}
-                  className="scroll-mt-28"
+                  className="scroll-mt-24 lg:scroll-mt-28"
                 >
-                  <div className="mb-8 lg:hidden">
-                    <h2 className="font-sans text-[clamp(2.25rem,8vw,3.25rem)] font-medium leading-none tracking-tight text-pe-white">
+                  <div className="mb-6 lg:hidden">
+                    <h2 className="font-sans text-[clamp(2rem,8vw,3rem)] font-medium leading-none tracking-tight text-pe-white">
                       {service.title}
                     </h2>
-                    <p className="mt-4 text-sm leading-relaxed text-pe-gray-light">
+                    <p className="mt-4 max-w-md text-sm leading-relaxed text-pe-gray-light">
                       {service.body}
                     </p>
-                    <div className="mt-8">
+                    <div className="mt-6">
                       <ServiceVideoCard src={service.video} label={service.title} />
                     </div>
                   </div>
 
-                  <p className="font-sans text-[clamp(1.2rem,2.2vw,1.65rem)] font-medium leading-snug tracking-tight text-pe-white">
+                  <p className="font-sans text-[clamp(1.15rem,4.5vw,1.65rem)] font-medium leading-snug tracking-tight text-pe-white">
                     {service.line}
                   </p>
 
-                  <ul className="mt-10 md:mt-12">
+                  <ul className="mt-8 md:mt-10 lg:mt-12">
                     {service.offerings.map((item) => (
                       <li
                         key={item}
