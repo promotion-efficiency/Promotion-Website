@@ -21,7 +21,7 @@ function CheckIcon() {
   )
 }
 
-export default function HeroConsentBar() {
+export default function CookieConsentBar() {
   const [visible, setVisible] = useState(false)
   const [expanded, setExpanded] = useState(false)
 
@@ -29,10 +29,7 @@ export default function HeroConsentBar() {
     setVisible(!localStorage.getItem(STORAGE_KEY))
   }, [])
 
-  const stop = (e: React.MouseEvent) => e.stopPropagation()
-
-  const accept = (e: React.MouseEvent) => {
-    stop(e)
+  const accept = () => {
     localStorage.setItem(STORAGE_KEY, '1')
     setVisible(false)
   }
@@ -41,9 +38,9 @@ export default function HeroConsentBar() {
 
   return (
     <div
-      className="pointer-events-auto absolute bottom-6 right-[5vw] z-20 flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-white/15 bg-black/70 py-2 pl-3 pr-2 backdrop-blur-md md:bottom-7"
-      onClick={stop}
-      role="group"
+      className="fixed bottom-6 right-[5vw] z-[100] flex max-w-[min(92vw,520px)] items-center gap-2.5 border border-white/15 bg-black/80 py-2 pl-3 pr-2 backdrop-blur-md md:bottom-7"
+      role="dialog"
+      aria-live="polite"
       aria-label="Cookie notice"
     >
       <p
@@ -52,16 +49,14 @@ export default function HeroConsentBar() {
         Like most websites, we use cookies to improve your experience and better understand how you use our site.
       </p>
 
-      <span className="hidden h-4 w-px shrink-0 bg-pe-white/25 sm:block" aria-hidden />
+      <span className="hidden h-4 w-px shrink-0 bg-white/25 sm:block" aria-hidden />
 
       <button
         type="button"
-        onClick={(e) => {
-          stop(e)
-          setExpanded((v) => !v)
-        }}
+        onClick={() => setExpanded((v) => !v)}
         className="flex h-8 w-8 shrink-0 items-center justify-center border border-white/20 text-white transition-colors hover:border-white/50"
         aria-label="Cookie settings"
+        aria-expanded={expanded}
       >
         <SettingsIcon />
       </button>

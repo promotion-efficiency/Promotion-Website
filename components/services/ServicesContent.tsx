@@ -22,9 +22,11 @@ function mediaSrc(src: string) {
 function ServiceVideoCard({
   src,
   label,
+  fill = false,
 }: {
   src: string
   label: string
+  fill?: boolean
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -36,7 +38,13 @@ function ServiceVideoCard({
   }, [src])
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-pe-charcoal">
+    <div
+      className={
+        fill
+          ? 'absolute inset-0 overflow-hidden bg-pe-charcoal'
+          : 'relative aspect-video w-full overflow-hidden bg-pe-charcoal'
+      }
+    >
       <video
         key={src}
         ref={videoRef}
@@ -136,9 +144,9 @@ export default function ServicesContent() {
 
       <section className="border-t border-pe-gray/20 bg-pe-black py-16 md:py-24">
         <div className="w-full px-[5vw]">
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-10 xl:gap-14">
-            {/* Left rail — service title top-left, video bottom-left */}
-            <aside className="flex w-full shrink-0 flex-col lg:sticky lg:top-28 lg:h-[calc(100svh-7rem)] lg:w-[26rem] lg:justify-between lg:self-start lg:pb-6 xl:w-[30rem]">
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-10 xl:gap-12">
+            {/* Left rail — video ends before the right copy (red-line width) */}
+            <aside className="flex w-full shrink-0 flex-col lg:sticky lg:top-28 lg:h-[calc(100svh-7rem)] lg:w-[min(62rem,66vw)] lg:self-start lg:pb-6 xl:w-[min(66rem,68vw)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeService.id}
@@ -146,17 +154,18 @@ export default function ServicesContent() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReduced ? undefined : { opacity: 0, y: -10 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="shrink-0"
                 >
                   <h2 className="font-sans text-[clamp(2.5rem,4vw,4rem)] font-medium leading-none tracking-tight text-pe-white">
                     {activeService.title}
                   </h2>
-                  <p className="mt-5 max-w-[20rem] text-sm leading-relaxed text-pe-gray-light">
+                  <p className="mt-5 max-w-md text-sm leading-relaxed text-pe-gray-light">
                     {activeService.body}
                   </p>
                 </motion.div>
               </AnimatePresence>
 
-              <div className="mt-10 hidden lg:mt-0 lg:block">
+              <div className="relative mt-8 hidden min-h-0 flex-1 lg:block">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`video-${activeService.id}`}
@@ -164,10 +173,12 @@ export default function ServicesContent() {
                     animate={{ opacity: 1 }}
                     exit={prefersReduced ? undefined : { opacity: 0 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0"
                   >
                     <ServiceVideoCard
                       src={activeService.video}
                       label={activeService.title}
+                      fill
                     />
                   </motion.div>
                 </AnimatePresence>
@@ -175,7 +186,7 @@ export default function ServicesContent() {
             </aside>
 
             {/* Right scrolling content */}
-            <div className="ml-auto w-full max-w-xl space-y-28 md:space-y-36 lg:max-w-[min(34rem,38vw)]">
+            <div className="ml-auto w-full max-w-xl space-y-28 md:space-y-36 lg:max-w-[min(32rem,34vw)]">
               {services.map((service, index) => (
                 <article
                   key={service.id}

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { assetPath } from '@/lib/paths'
+import CookieConsentBar from '@/components/shared/CookieConsentBar'
 import './globals.css'
 
 const nord = localFont({
@@ -36,7 +37,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${nord.variable} ${gotham.variable}`}>
-      <body className="bg-pe-black text-pe-white antialiased">{children}</body>
+      <body className="bg-pe-black text-pe-white antialiased">
+        {children}
+        <CookieConsentBar />
+      </body>
     </html>
   )
 }

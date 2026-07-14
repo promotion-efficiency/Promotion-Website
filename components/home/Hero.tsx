@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import HeroPlayCursor, { useFinePointer, usePlayCursor } from '@/components/home/HeroPlayCursor'
 import { useHeroExpandedMode } from '@/components/home/HeroExpandedMode'
-import HeroConsentBar from '@/components/home/HeroConsentBar'
 import { useWordmarkSplit } from '@/components/brand/SplitWordmark'
 import { brand } from '@/lib/brand'
 import { assetPath } from '@/lib/paths'
@@ -194,8 +193,6 @@ export default function Hero() {
               Play
             </span>
           )}
-
-          <HeroConsentBar />
 
           <motion.div
             className="pointer-events-none absolute bottom-0 left-0 hidden w-full px-[5vw] pb-10 md:block md:pb-14"
