@@ -11,13 +11,13 @@ const EXPLORE_LINKS = [
   { label: 'Work', href: '/work' },
   { label: 'About', href: '/about' },
   { label: 'Manifesto', href: '/#manifesto' },
-  { label: 'Services', href: '/#services' },
+  { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
 ] as const
 
 const SERVICE_LINKS = services.map((service) => ({
   label: service.title,
-  href: `/#services`,
+  href: `/services#${service.id}`,
 }))
 
 const STUDIO_LINKS = [

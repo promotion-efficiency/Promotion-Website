@@ -2,7 +2,7 @@ export const PRIMARY_NAV = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/#services' },
+  { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
 ] as const
 
@@ -37,6 +37,7 @@ export function getCompactNavContext(pathname: string): { label: string; href: s
   if (pathname === '/') return { label: 'Home', href: '/' }
   if (pathname.startsWith('/work')) return { label: 'Work', href: '/work' }
   if (pathname.startsWith('/about')) return { label: 'About', href: '/about' }
+  if (pathname.startsWith('/services')) return { label: 'Services', href: '/services' }
   if (pathname.startsWith('/contact')) return { label: 'Contact', href: '/contact' }
   return { label: 'Home', href: '/' }
 }
