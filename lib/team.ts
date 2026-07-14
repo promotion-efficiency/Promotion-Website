@@ -11,7 +11,7 @@ export const studioLocation = {
   country: 'Saudi Arabia',
   label: 'Khobar, Saudi Arabia',
   address: 'Khobar, Eastern Province, Saudi Arabia',
-  image: '/assets/khobar-studio.png',
+  image: '/assets/khobar-studio.jpg',
 } as const
 
 export const studios = [studioLocation] as const

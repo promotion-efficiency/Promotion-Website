@@ -5,10 +5,15 @@ import Image from 'next/image'
 import { useReducedMotion } from 'framer-motion'
 import { brand } from '@/lib/brand'
 import { studioLocation, studioPlural, studios, studioSize, team, teamSize, values, locationPlural } from '@/lib/team'
+import { assetPath } from '@/lib/paths'
 import QuoteCTA from '@/components/shared/QuoteCTA'
 import StudioNews from '@/components/home/StudioNews'
 import WorkCaseCursor from '@/components/home/WorkCaseCursor'
 import { useFinePointer, usePlayCursor } from '@/components/home/HeroPlayCursor'
+
+function mediaSrc(src: string) {
+  return src.startsWith('http') ? src : assetPath(src)
+}
 
 const JUMP_LINKS = [
   { label: 'Values', href: '#values' },
@@ -117,7 +122,7 @@ function TeamSection() {
                 >
                   <div className="relative aspect-[4/5] overflow-hidden bg-pe-surface">
                     <Image
-                      src={activeMember.image}
+                      src={mediaSrc(activeMember.image)}
                       alt=""
                       fill
                       className="object-cover"
@@ -212,11 +217,12 @@ function LocationsSection() {
                   }}
                 >
                   <Image
-                    src={studio.image}
+                    src={mediaSrc(studio.image)}
                     alt={`${studio.label} studio`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 90vw, 56rem"
+                    unoptimized
                   />
                 </div>
               </a>
@@ -247,12 +253,13 @@ export default function AboutContent() {
     <>
       <section className="relative h-[50svh] min-h-[20rem] w-full overflow-hidden bg-pe-charcoal">
         <Image
-          src={studioLocation.image}
+          src={mediaSrc(studioLocation.image)}
           alt={`${studioLocation.label} — Promotion Efficiency`}
           fill
           priority
           className="object-cover"
           sizes="100vw"
+          unoptimized
         />
       </section>
 
