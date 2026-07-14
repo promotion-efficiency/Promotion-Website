@@ -14,6 +14,8 @@ export const studioLocation = {
   image: '/assets/khobar-studio.png',
 } as const
 
+export const studios = [studioLocation] as const
+
 // TODO: replace with real team photos
 export const team: TeamMember[] = [
   {
@@ -136,3 +138,8 @@ export const press = [
   'Design Week',
   'Creative Review',
 ] as const
+
+export const teamSize = team.length
+export const studioSize = studios.length
+export const studioPlural = studioSize === 1 ? 'Studio' : 'Studios'
+export const locationPlural = studioSize === 1 ? 'Location' : 'Locations'
