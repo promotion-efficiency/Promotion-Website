@@ -22,6 +22,9 @@ export const brand = {
     grayLight: '#9a9a9a',
     white: '#f2f2f2',
     offWhite: '#e8e8e8',
+    orange: '#e84a1a',
+    teal: '#20505b',
+    ink: '#212121',
   },
   fonts: {
     display: 'var(--font-nord)',
