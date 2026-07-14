@@ -157,7 +157,11 @@ export default function WorkIndex() {
     <>
       <section className="relative min-h-svh bg-pe-black pt-24 md:pt-28">
         <div className="relative flex flex-col lg:flex-row lg:items-start">
-          <aside className="sticky top-20 z-20 flex w-full shrink-0 flex-col justify-between bg-pe-black px-[5vw] pb-8 pt-2 lg:top-28 lg:h-[calc(100svh-7rem)] lg:w-[min(22rem,28vw)] lg:self-start lg:pt-0 lg:pb-10 xl:w-[min(24rem,26vw)]">
+          <aside
+            className={`sticky top-20 flex w-full shrink-0 flex-col justify-between bg-pe-black px-[5vw] pb-8 pt-2 lg:top-28 lg:h-[calc(100svh-7rem)] lg:w-[min(22rem,28vw)] lg:self-start lg:pt-0 lg:pb-10 xl:w-[min(24rem,26vw)] ${
+              spotlight ? 'z-50' : 'z-20'
+            }`}
+          >
             <div>
               <h1 className="font-sans text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-none tracking-tight text-pe-white">
                 Our work
@@ -239,9 +243,9 @@ export default function WorkIndex() {
           </div>
         </div>
 
-        {/* Uniform full-viewport dim — sits under the active tile only */}
+        {/* Dim only the project grid area — left rail + hovered tile stay clear above */}
         <div
-          className={`pointer-events-none fixed inset-0 z-40 bg-black/75 backdrop-blur-[8px] transition-opacity duration-300 ${
+          className={`pointer-events-none fixed inset-0 z-40 bg-black/75 backdrop-blur-[8px] transition-opacity duration-300 lg:left-[min(22rem,28vw)] xl:left-[min(24rem,26vw)] ${
             spotlight ? 'opacity-100' : 'opacity-0'
           }`}
           aria-hidden
